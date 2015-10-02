@@ -19,4 +19,10 @@ public class TestRuleEngine {
 		engine.payForPhysicalProduct();
 		verify(packingSlipGenerator).generatePackingSlip();
 	}
+	
+	@Test
+	public void payForBook_twoPackaingSlipsAreGenerated(){
+		engine.payForBook();
+		verify(packingSlipGenerator, times(2)).generatePackingSlip();
+	}
 }

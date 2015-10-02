@@ -1,8 +1,13 @@
 package com.kata.businessrules;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 
 public class RuleEngine {
+
+	final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
 
 	private final PackingSlipGenerator packingSlipGenerator;
 
@@ -12,8 +17,13 @@ public class RuleEngine {
 	}
 
 	public void payForPhysicalProduct() {
-		// TODO Auto-generated method stub
+		logger.info("Customer paid for physical product.");
 		packingSlipGenerator.generatePackingSlip();
 	}
 
+	public void payForBook() {
+		logger.info("Customer paid for book.");
+		packingSlipGenerator.generatePackingSlip();
+		packingSlipGenerator.generatePackingSlip();
+	}
 }
