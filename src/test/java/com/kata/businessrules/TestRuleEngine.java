@@ -14,9 +14,15 @@ public class TestRuleEngine {
 	private ReceiptGenerator receiptGenerator;
 	private User customer;
 	private User royaltyDepartment;
+	private Product physicalProduct;
+	private Product book;
 	
 	private void pay(Product product){
 		engine.pay(customer, royaltyDepartment, product);
+	}
+	
+	private Receipt expectedReceipt(Product product){
+		return new ReceiptWithVisibleInternals(customer, product);
 	}
 	
 	@Before
@@ -25,18 +31,20 @@ public class TestRuleEngine {
 		customer = mock(User.class);
 		royaltyDepartment = mock(User.class);
 		engine = new RuleEngine(receiptGenerator);
+		physicalProduct = mock(PhysicalProduct.class);
+		book = mock(Book.class);
 	}
 	
 	@Test
 	public void pay_PhysicalProduct_receiptIsIssuedToCustomer(){
-		pay(mock(PhysicalProduct.class));
-		verify(customer).IssueReceipt(any(Receipt.class));
+		pay(physicalProduct);		
+		verify(customer).IssueReceipt(expectedReceipt(physicalProduct));
 	}
 	
 	@Test
 	public void pay_Book_receiptIsIssuedToCustomerAndToRoyaltyDepartment(){
-		pay(mock(Book.class));
-		verify(customer).IssueReceipt(any(Receipt.class));
-		verify(royaltyDepartment).IssueReceipt(any(Receipt.class));
+		pay(book);
+		verify(customer).IssueReceipt(expectedReceipt(book));
+		verify(royaltyDepartment).IssueReceipt(expectedReceipt(book));
 	}
 }
