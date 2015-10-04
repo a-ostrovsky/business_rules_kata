@@ -3,8 +3,6 @@ package com.kata.businessrules;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kata.businessrules.products.Book;
-import com.kata.businessrules.products.PhysicalProduct;
 import com.kata.businessrules.products.Product;
 
 import static org.mockito.Mockito.*;
