@@ -12,39 +12,41 @@ import static org.mockito.Mockito.*;
 public class TestRuleEngine {
 	private RuleEngine engine;
 	private ReceiptGenerator receiptGenerator;
-	private User customer;
-	private User royaltyDepartment;
+	private CurrentUsers currentUsers;
 	private Product physicalProduct;
 	private Product book;
-	
-	private void pay(Product product){
-		engine.pay(customer, royaltyDepartment, product);
+
+	private void pay(Product product) {
+		engine.pay(currentUsers, product);
+	}
+
+	private Receipt expectedReceipt(Product product) {
+		return new ReceiptWithVisibleInternals(currentUsers.getCustomer(), product);
 	}
 	
-	private Receipt expectedReceipt(Product product){
-		return new ReceiptWithVisibleInternals(customer, product);
+	private void assertUserReceivedReceipt(User user, Product product){
+		verify(user).IssueReceipt(expectedReceipt(product));
 	}
-	
+
 	@Before
-	public void setup(){
+	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
-		customer = mock(User.class);
-		royaltyDepartment = mock(User.class);
+		currentUsers = new CurrentMockedUsers();
 		engine = new RuleEngine(receiptGenerator);
-		physicalProduct = mock(PhysicalProduct.class);
-		book = mock(Book.class);
+		physicalProduct = ProductFixture.createSomePhysicalProduct();
+		book = ProductFixture.createSomeBook();
 	}
-	
+
 	@Test
-	public void pay_PhysicalProduct_receiptIsIssuedToCustomer(){
-		pay(physicalProduct);		
-		verify(customer).IssueReceipt(expectedReceipt(physicalProduct));
+	public void pay_PhysicalProduct_receiptIsIssuedToCustomer() {
+		pay(physicalProduct);
+		assertUserReceivedReceipt(currentUsers.getCustomer(), physicalProduct);		
 	}
-	
+
 	@Test
-	public void pay_Book_receiptIsIssuedToCustomerAndToRoyaltyDepartment(){
+	public void pay_Book_receiptIsIssuedToCustomerAndToRoyaltyDepartment() {
 		pay(book);
-		verify(customer).IssueReceipt(expectedReceipt(book));
-		verify(royaltyDepartment).IssueReceipt(expectedReceipt(book));
+		assertUserReceivedReceipt(currentUsers.getCustomer(), physicalProduct);
+		assertUserReceivedReceipt(currentUsers.getRoyaltyDepartment(), physicalProduct);
 	}
 }

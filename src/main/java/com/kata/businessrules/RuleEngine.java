@@ -19,10 +19,11 @@ public class RuleEngine {
 		this.receiptGenerator = receiptGenerator;
 	}
 	
-	public void pay(User customer, User royaltyDepartment, Product product) {
-		Preconditions.checkNotNull(customer);
-		Preconditions.checkNotNull(royaltyDepartment);
+	public void pay(CurrentUsers users, Product product) {
+		Preconditions.checkNotNull(users);		
 		Preconditions.checkNotNull(product);
+		User customer = users.getCustomer();
+		User royaltyDepartment = users.getRoyaltyDepartment();
 		logger.info("Customer paid for a product.");
 		if(product instanceof PhysicalProduct) {
 			Receipt receipt = receiptGenerator.generateReceipt(customer, product);
