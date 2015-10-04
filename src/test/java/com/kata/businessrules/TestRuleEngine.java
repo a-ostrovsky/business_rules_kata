@@ -6,23 +6,23 @@ import static org.mockito.Mockito.*;
 
 public class TestRuleEngine {
 	private RuleEngine engine;
-	private PackingSlipGenerator packingSlipGenerator;	
+	private ReceiptGenerator receiptGenerator;	
 
 	@Before
 	public void setup(){
-		packingSlipGenerator = mock(PackingSlipGenerator.class);
-		engine = new RuleEngine(packingSlipGenerator);
+		receiptGenerator = mock(ReceiptGenerator.class);
+		engine = new RuleEngine(receiptGenerator);
 	}
 	
 	@Test
-	public void payForPhysicalProduct_packaingSlipIsGenerated(){
+	public void payForPhysicalProduct_receiptIsGenerated(){
 		engine.payForPhysicalProduct();
-		verify(packingSlipGenerator).generatePackingSlip();
+		verify(receiptGenerator).generateReceipt();
 	}
 	
 	@Test
-	public void payForBook_twoPackaingSlipsAreGenerated(){
+	public void payForBook_twoReceiptsAreGenerated(){
 		engine.payForBook();
-		verify(packingSlipGenerator, times(2)).generatePackingSlip();
+		verify(receiptGenerator, times(2)).generateReceipt();
 	}
 }

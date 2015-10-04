@@ -9,21 +9,21 @@ public class RuleEngine {
 
 	final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
 
-	private final PackingSlipGenerator packingSlipGenerator;
+	private final ReceiptGenerator receiptGenerator;
 
-	public RuleEngine(PackingSlipGenerator packingSlipGenerator) {
-		Preconditions.checkNotNull(packingSlipGenerator);
-		this.packingSlipGenerator = packingSlipGenerator;
+	public RuleEngine(ReceiptGenerator receiptGenerator) {
+		Preconditions.checkNotNull(receiptGenerator);
+		this.receiptGenerator = receiptGenerator;
 	}
 
 	public void payForPhysicalProduct() {
 		logger.info("Customer paid for physical product.");
-		packingSlipGenerator.generatePackingSlip();
+		receiptGenerator.generateReceipt();
 	}
 
 	public void payForBook() {
 		logger.info("Customer paid for book.");
-		packingSlipGenerator.generatePackingSlip();
-		packingSlipGenerator.generatePackingSlip();
+		receiptGenerator.generateReceipt();
+		receiptGenerator.generateReceipt();
 	}
 }
