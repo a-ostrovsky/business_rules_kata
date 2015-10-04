@@ -25,9 +25,10 @@ public class RuleEngine {
 		Preconditions.checkNotNull(product);
 		logger.info("Customer paid for a product.");
 		if(product instanceof PhysicalProduct) {
-			receiptGenerator.generateReceipt();
+			Receipt receipt = receiptGenerator.generateReceipt();
+			customer.IssueReceipt(receipt);
 			if(product instanceof Book) {
-				receiptGenerator.generateReceipt();
+				royaltyDepartment.IssueReceipt(receipt);
 			}
 		}
 	}	

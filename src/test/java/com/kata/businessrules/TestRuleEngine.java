@@ -21,21 +21,22 @@ public class TestRuleEngine {
 	
 	@Before
 	public void setup(){
-		receiptGenerator = mock(ReceiptGenerator.class);
+		receiptGenerator = new DummyReceiptGenerator();
 		customer = mock(User.class);
 		royaltyDepartment = mock(User.class);
 		engine = new RuleEngine(receiptGenerator);
 	}
 	
 	@Test
-	public void pay_PhysicalProduct_receiptIsGenerated(){
+	public void pay_PhysicalProduct_receiptIsIssuedToCustomer(){
 		pay(mock(PhysicalProduct.class));
-		verify(receiptGenerator).generateReceipt();
+		verify(customer).IssueReceipt(any(Receipt.class));
 	}
 	
 	@Test
-	public void pay_Book_twoReceiptsAreGenerated(){
+	public void pay_Book_receiptIsIssuedToCustomerAndToRoyaltyDepartment(){
 		pay(mock(Book.class));
-		verify(receiptGenerator, times(2)).generateReceipt();
+		verify(customer).IssueReceipt(any(Receipt.class));
+		verify(royaltyDepartment).IssueReceipt(any(Receipt.class));
 	}
 }
