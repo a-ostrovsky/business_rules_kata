@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
+import com.kata.businessrules.products.Book;
+import com.kata.businessrules.products.PhysicalProduct;
+import com.kata.businessrules.products.Product;
 
 public class RuleEngine {
 
@@ -15,15 +18,17 @@ public class RuleEngine {
 		Preconditions.checkNotNull(receiptGenerator);
 		this.receiptGenerator = receiptGenerator;
 	}
-
-	public void payForPhysicalProduct() {
-		logger.info("Customer paid for physical product.");
-		receiptGenerator.generateReceipt();
-	}
-
-	public void payForBook() {
-		logger.info("Customer paid for book.");
-		receiptGenerator.generateReceipt();
-		receiptGenerator.generateReceipt();
-	}
+	
+	public void pay(User customer, User royaltyDepartment, Product product) {
+		Preconditions.checkNotNull(customer);
+		Preconditions.checkNotNull(royaltyDepartment);
+		Preconditions.checkNotNull(product);
+		logger.info("Customer paid for a product.");
+		if(product instanceof PhysicalProduct) {
+			receiptGenerator.generateReceipt();
+			if(product instanceof Book) {
+				receiptGenerator.generateReceipt();
+			}
+		}
+	}	
 }
