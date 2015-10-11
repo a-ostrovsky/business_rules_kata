@@ -1,16 +1,11 @@
 package com.kata.businessrules;
 
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.kata.businessrules.products.Book;
-import com.kata.businessrules.products.PhysicalProduct;
 import com.kata.businessrules.products.Product;
 
 public class RuleEngine {

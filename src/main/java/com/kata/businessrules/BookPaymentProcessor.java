@@ -21,6 +21,7 @@ public class BookPaymentProcessor implements PaymentProcessor {
 		User royaltyDepartment = users.getRoyaltyDepartment();
 		Receipt receipt = receiptGenerator.generateReceipt(customer, product);
 		royaltyDepartment.issueReceipt(receipt);
+		//receipt is issued to customer by PhysicalProductPaymentProcessor
 	}
 
 	@Override

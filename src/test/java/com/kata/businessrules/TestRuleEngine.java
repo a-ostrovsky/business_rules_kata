@@ -7,51 +7,50 @@ import com.kata.businessrules.products.Product;
 
 import static org.mockito.Mockito.*;
 
+import java.util.Arrays;
+
 public class TestRuleEngine {
 	private RuleEngine engine;
-	private ReceiptGenerator receiptGenerator;
 	private CurrentUsers currentUsers;
-	private Product physicalProduct;
-	private Product book;	
+	private Product product;
+	private PaymentProcessor firstProcessorThatCanProcessProduct;
+	private PaymentProcessor secondProcessorThatCanProcessProduct;
+	private PaymentProcessor processorThatCannotProcessProduct;
 
-	private void pay(Product product) {
+	private void pay() {
 		engine.pay(currentUsers, product);
-	}
-
-	private Receipt expectedReceipt(Product product) {
-		return new ReceiptWithVisibleInternals(currentUsers.getCustomer(), product);
-	}
-	
-	private void assertUserReceivedReceipt(User user, Product product){        
-		verify(user).issueReceipt(expectedReceipt(product));
 	}
 
 	@Before
 	public void setup() {
-		receiptGenerator = new DummyReceiptGenerator();
+		product = ProductFixture.createArbitraryProduct();
+		firstProcessorThatCanProcessProduct = PaymentProcessorFixture
+				.thatCanProcess(product);
+		secondProcessorThatCanProcessProduct = PaymentProcessorFixture
+				.thatCanProcess(product);
+		processorThatCannotProcessProduct = PaymentProcessorFixture
+				.thatCanNotProcess(product);
 		currentUsers = new CurrentMockedUsers();
-		engine = new RuleEngine(receiptGenerator);
-		physicalProduct = ProductFixture.createSomePhysicalProduct();
-		book = ProductFixture.createSomeBook();		
+		engine = new RuleEngine(
+				Arrays.asList(firstProcessorThatCanProcessProduct,
+						processorThatCannotProcessProduct,
+						secondProcessorThatCanProcessProduct));
 	}
 
 	@Test
-	public void pay_PhysicalProduct_receiptIsIssuedToCustomer() {
-		pay(physicalProduct);
-		assertUserReceivedReceipt(currentUsers.getCustomer(), physicalProduct);		
+	public void pay_requestIsDispatchedToProperProcessor() {
+		pay();
+		verify(firstProcessorThatCanProcessProduct, times(1)).pay(currentUsers,
+				product);
+		verify(secondProcessorThatCanProcessProduct, times(1)).pay(currentUsers,
+				product);
+		verify(processorThatCannotProcessProduct, never()).pay(currentUsers,
+				product);
 	}
 
 	@Test
-	public void pay_Book_receiptIsIssuedToCustomerAndToRoyaltyDepartment() {
-		pay(book);
-		assertUserReceivedReceipt(currentUsers.getCustomer(), book);
-		assertUserReceivedReceipt(currentUsers.getRoyaltyDepartment(), book);
-	}
-	
-	@Test
-	public void pay_ArbitraryProduct_productIsAddedToUsersListOfBoughtProducts() {
-		Product product = ProductFixture.createArbitraryProduct();
-		pay(product);
+	public void pay_productIsAddedToUsersListOfBoughtProducts() {		
+		pay();
 		verify(currentUsers.getCustomer()).purchase(product);
 	}
 }
