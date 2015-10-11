@@ -18,8 +18,7 @@ public class UserStoredInMemory implements User {
 	
 	@Override
 	public void issueReceipt(Receipt receipt) {
-		logger.info("Got receipt.");
-		
+		logger.info("Got receipt.");		
 	}
 
 	@Override
