@@ -12,7 +12,7 @@ public class TestRuleEngine {
 	private ReceiptGenerator receiptGenerator;
 	private CurrentUsers currentUsers;
 	private Product physicalProduct;
-	private Product book;
+	private Product book;	
 
 	private void pay(Product product) {
 		engine.pay(currentUsers, product);
@@ -22,7 +22,7 @@ public class TestRuleEngine {
 		return new ReceiptWithVisibleInternals(currentUsers.getCustomer(), product);
 	}
 	
-	private void assertUserReceivedReceipt(User user, Product product){
+	private void assertUserReceivedReceipt(User user, Product product){        
 		verify(user).IssueReceipt(expectedReceipt(product));
 	}
 
@@ -32,7 +32,7 @@ public class TestRuleEngine {
 		currentUsers = new CurrentMockedUsers();
 		engine = new RuleEngine(receiptGenerator);
 		physicalProduct = ProductFixture.createSomePhysicalProduct();
-		book = ProductFixture.createSomeBook();
+		book = ProductFixture.createSomeBook();		
 	}
 
 	@Test
@@ -44,7 +44,14 @@ public class TestRuleEngine {
 	@Test
 	public void pay_Book_receiptIsIssuedToCustomerAndToRoyaltyDepartment() {
 		pay(book);
-		assertUserReceivedReceipt(currentUsers.getCustomer(), physicalProduct);
-		assertUserReceivedReceipt(currentUsers.getRoyaltyDepartment(), physicalProduct);
+		assertUserReceivedReceipt(currentUsers.getCustomer(), book);
+		assertUserReceivedReceipt(currentUsers.getRoyaltyDepartment(), book);
+	}
+	
+	@Test
+	public void pay_ArbitraryProduct_productIsAddedToUsersListOfBoughtProduct() {
+		Product product = ProductFixture.createArbitraryProduct();
+		pay(product);
+		verify(currentUsers.getCustomer()).buy(product);
 	}
 }

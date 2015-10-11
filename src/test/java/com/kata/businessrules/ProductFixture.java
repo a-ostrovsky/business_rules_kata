@@ -14,4 +14,8 @@ public class ProductFixture {
 	public static Product createSomeBook() {
 		return mock(Book.class);
 	}
+	
+	public static Product createArbitraryProduct() {
+		return mock(Product.class);
+	}
 }

@@ -22,6 +22,7 @@ public class RuleEngine {
 	public void pay(CurrentUsers users, Product product) {
 		Preconditions.checkNotNull(users);		
 		Preconditions.checkNotNull(product);
+		users.getCustomer().buy(product);
 		User customer = users.getCustomer();
 		User royaltyDepartment = users.getRoyaltyDepartment();
 		logger.info("Customer paid for a product.");
