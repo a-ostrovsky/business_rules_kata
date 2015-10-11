@@ -1,5 +1,10 @@
 package com.kata.businessrules;
 
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,27 +16,18 @@ import com.kata.businessrules.products.Product;
 public class RuleEngine {
 
 	private final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
+	private Iterable<PaymentProcessor> paymentProcessors;
 
-	private final ReceiptGenerator receiptGenerator;
-
-	public RuleEngine(ReceiptGenerator receiptGenerator) {
-		Preconditions.checkNotNull(receiptGenerator);
-		this.receiptGenerator = receiptGenerator;
+	public RuleEngine(Iterable<PaymentProcessor> paymentProcessors) {
+		Preconditions.checkNotNull(paymentProcessors);
+		this.paymentProcessors = paymentProcessors;
 	}
-	
+
 	public void pay(CurrentUsers users, Product product) {
-		Preconditions.checkNotNull(users);		
-		Preconditions.checkNotNull(product);
+		logger.debug("Customer paid");
 		users.getCustomer().purchase(product);
-		User customer = users.getCustomer();
-		User royaltyDepartment = users.getRoyaltyDepartment();
-		logger.info("Customer paid for a product.");
-		if(product instanceof PhysicalProduct) {
-			Receipt receipt = receiptGenerator.generateReceipt(customer, product);
-			customer.issueReceipt(receipt);
-			if(product instanceof Book) {
-				royaltyDepartment.issueReceipt(receipt);
-			}
-		}
-	}	
+		StreamSupport.stream(paymentProcessors.spliterator(), false)
+				.filter(processor -> processor.canProcess(product))
+				.forEach(processor -> processor.pay(users, product));
+	}
 }
