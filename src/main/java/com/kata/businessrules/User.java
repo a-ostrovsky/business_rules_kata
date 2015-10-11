@@ -1,9 +1,13 @@
 package com.kata.businessrules;
 
+import java.util.Collection;
+
 import com.kata.businessrules.products.Product;
 
 public interface User {
-	void IssueReceipt(Receipt receipt);
+	void issueReceipt(Receipt receipt);
 	
-	void buy(Product product);
+	void purchase(Product product);
+	
+	Collection<Product> getPurchasedProducts();
 }

@@ -23,7 +23,7 @@ public class TestRuleEngine {
 	}
 	
 	private void assertUserReceivedReceipt(User user, Product product){        
-		verify(user).IssueReceipt(expectedReceipt(product));
+		verify(user).issueReceipt(expectedReceipt(product));
 	}
 
 	@Before
@@ -52,6 +52,6 @@ public class TestRuleEngine {
 	public void pay_ArbitraryProduct_productIsAddedToUsersListOfBoughtProducts() {
 		Product product = ProductFixture.createArbitraryProduct();
 		pay(product);
-		verify(currentUsers.getCustomer()).buy(product);
+		verify(currentUsers.getCustomer()).purchase(product);
 	}
 }

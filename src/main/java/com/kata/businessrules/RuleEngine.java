@@ -10,7 +10,7 @@ import com.kata.businessrules.products.Product;
 
 public class RuleEngine {
 
-	final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
+	private final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
 
 	private final ReceiptGenerator receiptGenerator;
 
@@ -22,15 +22,15 @@ public class RuleEngine {
 	public void pay(CurrentUsers users, Product product) {
 		Preconditions.checkNotNull(users);		
 		Preconditions.checkNotNull(product);
-		users.getCustomer().buy(product);
+		users.getCustomer().purchase(product);
 		User customer = users.getCustomer();
 		User royaltyDepartment = users.getRoyaltyDepartment();
 		logger.info("Customer paid for a product.");
 		if(product instanceof PhysicalProduct) {
 			Receipt receipt = receiptGenerator.generateReceipt(customer, product);
-			customer.IssueReceipt(receipt);
+			customer.issueReceipt(receipt);
 			if(product instanceof Book) {
-				royaltyDepartment.IssueReceipt(receipt);
+				royaltyDepartment.issueReceipt(receipt);
 			}
 		}
 	}	
