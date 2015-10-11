@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
+import com.kata.businessrules.payment.PaymentProcessor;
 import com.kata.businessrules.products.Product;
 
 public class RuleEngine {

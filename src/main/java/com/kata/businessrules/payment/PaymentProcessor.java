@@ -1,5 +1,6 @@
-package com.kata.businessrules;
+package com.kata.businessrules.payment;
 
+import com.kata.businessrules.CurrentUsers;
 import com.kata.businessrules.products.Product;
 
 public interface PaymentProcessor {

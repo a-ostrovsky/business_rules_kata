@@ -3,6 +3,7 @@ package com.kata.businessrules;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.kata.businessrules.payment.PaymentProcessor;
 import com.kata.businessrules.products.Product;
 
 import static org.mockito.Mockito.*;
