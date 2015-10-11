@@ -49,7 +49,7 @@ public class TestRuleEngine {
 	}
 	
 	@Test
-	public void pay_ArbitraryProduct_productIsAddedToUsersListOfBoughtProduct() {
+	public void pay_ArbitraryProduct_productIsAddedToUsersListOfBoughtProducts() {
 		Product product = ProductFixture.createArbitraryProduct();
 		pay(product);
 		verify(currentUsers.getCustomer()).buy(product);
