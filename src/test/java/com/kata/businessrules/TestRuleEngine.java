@@ -3,7 +3,7 @@ package com.kata.businessrules;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kata.businessrules.payment.PaymentProcessor;
+import com.kata.businessrules.payment.PaymentBehavior;
 import com.kata.businessrules.products.Product;
 
 import static org.mockito.Mockito.*;
@@ -14,9 +14,9 @@ public class TestRuleEngine {
 	private RuleEngine engine;
 	private CurrentUsers currentUsers;
 	private Product product;
-	private PaymentProcessor firstProcessorThatCanProcessProduct;
-	private PaymentProcessor secondProcessorThatCanProcessProduct;
-	private PaymentProcessor processorThatCannotProcessProduct;
+	private PaymentBehavior firstBehaviorThatCanProcessProduct;
+	private PaymentBehavior secondBehaviorThatCanProcessProduct;
+	private PaymentBehavior behaviorThatCannotProcessProduct;
 
 	private void pay() {
 		engine.pay(currentUsers, product);
@@ -25,27 +25,27 @@ public class TestRuleEngine {
 	@Before
 	public void setup() {
 		product = ProductFixture.createArbitraryProduct();
-		firstProcessorThatCanProcessProduct = PaymentProcessorFixture
+		firstBehaviorThatCanProcessProduct = PaymentProcessorFixture
 				.thatCanProcess(product);
-		secondProcessorThatCanProcessProduct = PaymentProcessorFixture
+		secondBehaviorThatCanProcessProduct = PaymentProcessorFixture
 				.thatCanProcess(product);
-		processorThatCannotProcessProduct = PaymentProcessorFixture
+		behaviorThatCannotProcessProduct = PaymentProcessorFixture
 				.thatCanNotProcess(product);
 		currentUsers = new CurrentMockedUsers();
 		engine = new RuleEngine(
-				Arrays.asList(firstProcessorThatCanProcessProduct,
-						processorThatCannotProcessProduct,
-						secondProcessorThatCanProcessProduct));
+				Arrays.asList(firstBehaviorThatCanProcessProduct,
+						behaviorThatCannotProcessProduct,
+						secondBehaviorThatCanProcessProduct));
 	}
 
 	@Test
 	public void pay_requestIsDispatchedToProperProcessor() {
 		pay();
-		verify(firstProcessorThatCanProcessProduct, times(1)).pay(currentUsers,
+		verify(firstBehaviorThatCanProcessProduct, times(1)).pay(currentUsers,
 				product);
-		verify(secondProcessorThatCanProcessProduct, times(1)).pay(currentUsers,
+		verify(secondBehaviorThatCanProcessProduct, times(1)).pay(currentUsers,
 				product);
-		verify(processorThatCannotProcessProduct, never()).pay(currentUsers,
+		verify(behaviorThatCannotProcessProduct, never()).pay(currentUsers,
 				product);
 	}
 

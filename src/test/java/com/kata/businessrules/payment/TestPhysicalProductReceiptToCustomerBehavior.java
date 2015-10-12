@@ -11,20 +11,20 @@ import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
 import com.kata.businessrules.ReceiptWithVisibleInternals;
 import com.kata.businessrules.User;
-import com.kata.businessrules.payment.PaymentProcessor;
-import com.kata.businessrules.payment.PhysicalProductPaymentProcessor;
+import com.kata.businessrules.payment.PaymentBehavior;
+import com.kata.businessrules.payment.PhysicalProductReceiptToCustomerBehavior;
 import com.kata.businessrules.products.Product;
 
 import static org.mockito.Mockito.*;
 
-public class TestPhysicalProductPaymentProcessor {
-	private PaymentProcessor processor;
+public class TestPhysicalProductReceiptToCustomerBehavior {
+	private PaymentBehavior behavior;
 	private ReceiptGenerator receiptGenerator;
 	private CurrentUsers currentUsers;
 	private Product physicalProduct;
 
 	private void pay() {
-		processor.pay(currentUsers, physicalProduct);
+		behavior.pay(currentUsers, physicalProduct);
 	}
 
 	private Receipt expectedReceipt(Product product) {
@@ -40,7 +40,7 @@ public class TestPhysicalProductPaymentProcessor {
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
 		currentUsers = new CurrentMockedUsers();
-		processor = new PhysicalProductPaymentProcessor(receiptGenerator);
+		behavior = new PhysicalProductReceiptToCustomerBehavior(receiptGenerator);
 		physicalProduct = ProductFixture.createSomePhysicalProduct();
 	}
 

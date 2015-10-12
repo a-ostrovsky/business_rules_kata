@@ -8,11 +8,11 @@ import com.kata.businessrules.User;
 import com.kata.businessrules.products.Book;
 import com.kata.businessrules.products.Product;
 
-public class BookPaymentProcessor implements PaymentProcessor {
+public class BookReceiptToRoyaltyDepartmentBehavior implements PaymentBehavior {
 
 	private ReceiptGenerator receiptGenerator;
 
-	public BookPaymentProcessor(ReceiptGenerator receiptGenerator) {
+	public BookReceiptToRoyaltyDepartmentBehavior(ReceiptGenerator receiptGenerator) {
 		Preconditions.checkNotNull(receiptGenerator);
 		this.receiptGenerator = receiptGenerator;
 	}

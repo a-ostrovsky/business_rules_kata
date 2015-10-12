@@ -13,18 +13,18 @@ import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
 import com.kata.businessrules.ReceiptWithVisibleInternals;
 import com.kata.businessrules.User;
-import com.kata.businessrules.payment.BookPaymentProcessor;
-import com.kata.businessrules.payment.PaymentProcessor;
+import com.kata.businessrules.payment.BookReceiptToRoyaltyDepartmentBehavior;
+import com.kata.businessrules.payment.PaymentBehavior;
 import com.kata.businessrules.products.Product;
 
-public class TestBookPaymentProcessor {
-	private PaymentProcessor processor;
+public class TestBookReceiptToRoyaltyDepartmentBehavior {
+	private PaymentBehavior behavior;
 	private ReceiptGenerator receiptGenerator;
 	private CurrentUsers currentUsers;
 	private Product book;
 
 	private void pay() {
-		processor.pay(currentUsers, book);
+		behavior.pay(currentUsers, book);
 	}
 
 	private Receipt expectedReceipt(Product product) {
@@ -40,7 +40,7 @@ public class TestBookPaymentProcessor {
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
 		currentUsers = new CurrentMockedUsers();
-		processor = new BookPaymentProcessor(receiptGenerator);		
+		behavior = new BookReceiptToRoyaltyDepartmentBehavior(receiptGenerator);		
 		book = ProductFixture.createSomeBook();
 	}
 	

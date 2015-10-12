@@ -6,23 +6,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.kata.businessrules.payment.PaymentProcessor;
+import com.kata.businessrules.payment.PaymentBehavior;
 import com.kata.businessrules.products.Product;
 
 public class RuleEngine {
 
 	private final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
-	private Iterable<PaymentProcessor> paymentProcessors;
+	private Iterable<PaymentBehavior> paymentBehaviors;
 
-	public RuleEngine(Iterable<PaymentProcessor> paymentProcessors) {
-		Preconditions.checkNotNull(paymentProcessors);
-		this.paymentProcessors = paymentProcessors;
+	public RuleEngine(Iterable<PaymentBehavior> paymentBehaviors) {
+		Preconditions.checkNotNull(paymentBehaviors);
+		this.paymentBehaviors = paymentBehaviors;
 	}
 
 	public void pay(CurrentUsers users, Product product) {
 		logger.debug("Customer paid");
 		users.getCustomer().purchase(product);
-		StreamSupport.stream(paymentProcessors.spliterator(), false)
+		StreamSupport.stream(paymentBehaviors.spliterator(), false)
 				.filter(processor -> processor.canProcess(product))
 				.forEach(processor -> processor.pay(users, product));
 	}
