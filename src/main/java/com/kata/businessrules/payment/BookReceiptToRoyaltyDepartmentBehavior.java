@@ -29,7 +29,7 @@ public class BookReceiptToRoyaltyDepartmentBehavior implements PaymentBehavior {
 	}
 
 	@Override
-	public boolean canProcess(Product product) {
+	public boolean isApplicable(Product product) {
 		return product instanceof Book;
 	}
 

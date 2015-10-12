@@ -5,5 +5,5 @@ import com.kata.businessrules.products.Product;
 
 public interface PaymentBehavior {
 	void pay(CurrentUsers users, Product product);
-	boolean canProcess(Product product);
+	boolean isApplicable(Product product);
 }

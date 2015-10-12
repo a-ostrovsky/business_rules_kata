@@ -23,7 +23,7 @@ public class RuleEngine {
 		logger.debug("Customer paid");
 		users.getCustomer().purchase(product);
 		StreamSupport.stream(paymentBehaviors.spliterator(), false)
-				.filter(processor -> processor.canProcess(product))
+				.filter(processor -> processor.isApplicable(product))
 				.forEach(processor -> processor.pay(users, product));
 	}
 }

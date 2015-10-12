@@ -9,14 +9,14 @@ public class PaymentProcessorFixture {
 
 	public static PaymentBehavior thatCanProcess(Product product) {
 		PaymentBehavior result = mock(PaymentBehavior.class);
-		when(result.canProcess(product)).thenReturn(true);
-		when(result.canProcess(not(eq(product)))).thenReturn(false);
+		when(result.isApplicable(product)).thenReturn(true);
+		when(result.isApplicable(not(eq(product)))).thenReturn(false);
 		return result;
 	}
 	
 	public static PaymentBehavior thatCanNotProcess(Product product) {
 		PaymentBehavior result = mock(PaymentBehavior.class);
-		when(result.canProcess(product)).thenReturn(false);		
+		when(result.isApplicable(product)).thenReturn(false);		
 		return result;
 	}
 

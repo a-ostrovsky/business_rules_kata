@@ -16,6 +16,8 @@ import com.kata.businessrules.payment.PhysicalProductReceiptToCustomerBehavior;
 import com.kata.businessrules.products.Product;
 
 import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class TestPhysicalProductReceiptToCustomerBehavior {
 	private PaymentBehavior behavior;
@@ -40,7 +42,8 @@ public class TestPhysicalProductReceiptToCustomerBehavior {
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
 		currentUsers = new CurrentMockedUsers();
-		behavior = new PhysicalProductReceiptToCustomerBehavior(receiptGenerator);
+		behavior = new PhysicalProductReceiptToCustomerBehavior(
+				receiptGenerator);
 		physicalProduct = ProductFixture.createSomePhysicalProduct();
 	}
 
@@ -48,5 +51,14 @@ public class TestPhysicalProductReceiptToCustomerBehavior {
 	public void pay_PhysicalProduct_receiptIsIssuedToCustomer() {
 		pay();
 		assertUserReceivedReceipt(currentUsers.getCustomer(), physicalProduct);
-	}	
+	}
+
+	@Test
+	public void isApplicable_onlyTrueForPhysicalProducts() {
+		Product nonPhysicalProduct = mock(Product.class);
+		assertThat("Must be applicable to physical product.",
+				behavior.isApplicable(physicalProduct), is(true));
+		assertThat("Must not be applicable to non physical product.",
+				behavior.isApplicable(nonPhysicalProduct), is(false));
+	}
 }

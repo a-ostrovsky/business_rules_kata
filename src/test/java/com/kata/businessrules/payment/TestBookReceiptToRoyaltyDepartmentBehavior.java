@@ -1,5 +1,8 @@
 package com.kata.businessrules.payment;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -40,13 +43,22 @@ public class TestBookReceiptToRoyaltyDepartmentBehavior {
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
 		currentUsers = new CurrentMockedUsers();
-		behavior = new BookReceiptToRoyaltyDepartmentBehavior(receiptGenerator);		
+		behavior = new BookReceiptToRoyaltyDepartmentBehavior(receiptGenerator);
 		book = ProductFixture.createSomeBook();
 	}
-	
+
 	@Test
 	public void pay_Book_receiptIsIssuedToRoyaltyDepartment() {
 		pay();
 		assertUserReceivedReceipt(currentUsers.getRoyaltyDepartment(), book);
-	}	
+	}
+
+	@Test
+	public void isApplicable_onlyTrueForPhysicalProducts() {
+		Product nonBook = mock(Product.class);
+		assertThat("Must be applicable to book.",
+				behavior.isApplicable(book), is(true));
+		assertThat("Must not be applicable to non book.",
+				behavior.isApplicable(nonBook), is(false));
+	}
 }
