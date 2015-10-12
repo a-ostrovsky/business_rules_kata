@@ -8,11 +8,11 @@ import com.kata.businessrules.User;
 import com.kata.businessrules.products.PhysicalProduct;
 import com.kata.businessrules.products.Product;
 
-public class PhysicalProductReceiptToCustomerBehavior implements PaymentBehavior {
+public class ReceiptForPhysicalProductToCustomerBehavior implements PaymentBehavior {
 
 	private ReceiptGenerator receiptGenerator;
 
-	public PhysicalProductReceiptToCustomerBehavior(ReceiptGenerator receiptGenerator) {
+	public ReceiptForPhysicalProductToCustomerBehavior(ReceiptGenerator receiptGenerator) {
 		Preconditions.checkNotNull(receiptGenerator);
 		this.receiptGenerator = receiptGenerator;
 	}

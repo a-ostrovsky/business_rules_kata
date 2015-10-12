@@ -1,5 +1,10 @@
 package com.kata.businessrules.payment;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,22 +16,18 @@ import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
 import com.kata.businessrules.ReceiptWithVisibleInternals;
 import com.kata.businessrules.User;
+import com.kata.businessrules.payment.ReceiptForBookToRoyaltyDepartmentBehavior;
 import com.kata.businessrules.payment.PaymentBehavior;
-import com.kata.businessrules.payment.PhysicalProductReceiptToCustomerBehavior;
 import com.kata.businessrules.products.Product;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-
-public class TestPhysicalProductReceiptToCustomerBehavior {
+public class TestReceiptForBookToRoyaltyDepartmentBehavior {
 	private PaymentBehavior behavior;
 	private ReceiptGenerator receiptGenerator;
 	private CurrentUsers currentUsers;
-	private Product physicalProduct;
+	private Product book;
 
 	private void pay() {
-		behavior.pay(currentUsers, physicalProduct);
+		behavior.pay(currentUsers, book);
 	}
 
 	private Receipt expectedReceipt(Product product) {
@@ -42,23 +43,22 @@ public class TestPhysicalProductReceiptToCustomerBehavior {
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
 		currentUsers = new CurrentMockedUsers();
-		behavior = new PhysicalProductReceiptToCustomerBehavior(
-				receiptGenerator);
-		physicalProduct = ProductFixture.createSomePhysicalProduct();
+		behavior = new ReceiptForBookToRoyaltyDepartmentBehavior(receiptGenerator);
+		book = ProductFixture.createSomeBook();
 	}
 
 	@Test
-	public void pay_PhysicalProduct_receiptIsIssuedToCustomer() {
+	public void pay_Book_receiptIsIssuedToRoyaltyDepartment() {
 		pay();
-		assertUserReceivedReceipt(currentUsers.getCustomer(), physicalProduct);
+		assertUserReceivedReceipt(currentUsers.getRoyaltyDepartment(), book);
 	}
 
 	@Test
 	public void isApplicable_onlyTrueForPhysicalProducts() {
-		Product nonPhysicalProduct = mock(Product.class);
-		assertThat("Must be applicable to physical product.",
-				behavior.isApplicable(physicalProduct), is(true));
-		assertThat("Must not be applicable to non physical product.",
-				behavior.isApplicable(nonPhysicalProduct), is(false));
+		Product nonBook = mock(Product.class);
+		assertThat("Must be applicable to book.",
+				behavior.isApplicable(book), is(true));
+		assertThat("Must not be applicable to non book.",
+				behavior.isApplicable(nonBook), is(false));
 	}
 }
