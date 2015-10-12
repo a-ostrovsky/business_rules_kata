@@ -19,11 +19,11 @@ public class RuleEngine {
 		this.paymentBehaviors = paymentBehaviors;
 	}
 
-	public void pay(CurrentUsers users, Product product) {
+	public void pay(User customer, Product product) {
 		logger.debug("Customer paid");
-		users.getCustomer().purchase(product);
+		customer.purchase(product);
 		StreamSupport.stream(paymentBehaviors.spliterator(), false)
 				.filter(processor -> processor.isApplicable(product))
-				.forEach(processor -> processor.pay(users, product));
+				.forEach(processor -> processor.pay(customer, product));
 	}
 }

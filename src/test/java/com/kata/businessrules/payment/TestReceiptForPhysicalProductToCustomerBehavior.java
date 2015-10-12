@@ -1,37 +1,33 @@
 package com.kata.businessrules.payment;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kata.businessrules.CurrentMockedUsers;
-import com.kata.businessrules.CurrentUsers;
 import com.kata.businessrules.DummyReceiptGenerator;
 import com.kata.businessrules.ProductFixture;
 import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
 import com.kata.businessrules.ReceiptWithVisibleInternals;
 import com.kata.businessrules.User;
-import com.kata.businessrules.payment.PaymentBehavior;
-import com.kata.businessrules.payment.ReceiptForPhysicalProductToCustomerBehavior;
 import com.kata.businessrules.products.Product;
-
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 public class TestReceiptForPhysicalProductToCustomerBehavior {
 	private PaymentBehavior behavior;
 	private ReceiptGenerator receiptGenerator;
-	private CurrentUsers currentUsers;
 	private Product physicalProduct;
+	private User customer;
 
 	private void pay() {
-		behavior.pay(currentUsers, physicalProduct);
+		behavior.pay(customer, physicalProduct);
 	}
 
 	private Receipt expectedReceipt(Product product) {
-		return new ReceiptWithVisibleInternals(currentUsers.getCustomer(),
-				product);
+		return new ReceiptWithVisibleInternals(customer, product);
 	}
 
 	private void assertUserReceivedReceipt(User user, Product product) {
@@ -41,7 +37,7 @@ public class TestReceiptForPhysicalProductToCustomerBehavior {
 	@Before
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
-		currentUsers = new CurrentMockedUsers();
+		customer = mock(User.class);
 		behavior = new ReceiptForPhysicalProductToCustomerBehavior(
 				receiptGenerator);
 		physicalProduct = ProductFixture.createSomePhysicalProduct();
@@ -50,7 +46,7 @@ public class TestReceiptForPhysicalProductToCustomerBehavior {
 	@Test
 	public void pay_PhysicalProduct_receiptIsIssuedToCustomer() {
 		pay();
-		assertUserReceivedReceipt(currentUsers.getCustomer(), physicalProduct);
+		assertUserReceivedReceipt(customer, physicalProduct);
 	}
 
 	@Test

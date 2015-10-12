@@ -1,9 +1,9 @@
 package com.kata.businessrules.payment;
 
-import com.kata.businessrules.CurrentUsers;
+import com.kata.businessrules.User;
 import com.kata.businessrules.products.Product;
 
 public interface PaymentBehavior {
-	void pay(CurrentUsers users, Product product);
+	void pay(User customer, Product product);
 	boolean isApplicable(Product product);
 }

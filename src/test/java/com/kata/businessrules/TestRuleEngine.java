@@ -12,14 +12,14 @@ import java.util.Arrays;
 
 public class TestRuleEngine {
 	private RuleEngine engine;
-	private CurrentUsers currentUsers;
 	private Product product;
 	private PaymentBehavior firstBehaviorThatCanProcessProduct;
 	private PaymentBehavior secondBehaviorThatCanProcessProduct;
 	private PaymentBehavior behaviorThatCannotProcessProduct;
+	private User customer;
 
 	private void pay() {
-		engine.pay(currentUsers, product);
+		engine.pay(customer, product);
 	}
 
 	@Before
@@ -31,7 +31,7 @@ public class TestRuleEngine {
 				.thatCanProcess(product);
 		behaviorThatCannotProcessProduct = PaymentProcessorFixture
 				.thatCanNotProcess(product);
-		currentUsers = new CurrentMockedUsers();
+		customer = mock(User.class);
 		engine = new RuleEngine(
 				Arrays.asList(firstBehaviorThatCanProcessProduct,
 						behaviorThatCannotProcessProduct,
@@ -41,17 +41,17 @@ public class TestRuleEngine {
 	@Test
 	public void pay_requestIsDispatchedToProperProcessor() {
 		pay();
-		verify(firstBehaviorThatCanProcessProduct, times(1)).pay(currentUsers,
+		verify(firstBehaviorThatCanProcessProduct, times(1)).pay(customer,
 				product);
-		verify(secondBehaviorThatCanProcessProduct, times(1)).pay(currentUsers,
+		verify(secondBehaviorThatCanProcessProduct, times(1)).pay(customer,
 				product);
-		verify(behaviorThatCannotProcessProduct, never()).pay(currentUsers,
+		verify(behaviorThatCannotProcessProduct, never()).pay(customer,
 				product);
 	}
 
 	@Test
-	public void pay_productIsAddedToUsersListOfBoughtProducts() {		
+	public void pay_productIsAddedToUsersListOfBoughtProducts() {
 		pay();
-		verify(currentUsers.getCustomer()).purchase(product);
+		verify(customer).purchase(product);
 	}
 }

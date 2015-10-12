@@ -8,8 +8,6 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kata.businessrules.CurrentMockedUsers;
-import com.kata.businessrules.CurrentUsers;
 import com.kata.businessrules.DummyReceiptGenerator;
 import com.kata.businessrules.ProductFixture;
 import com.kata.businessrules.Receipt;
@@ -23,16 +21,16 @@ import com.kata.businessrules.products.Product;
 public class TestReceiptForBookToRoyaltyDepartmentBehavior {
 	private PaymentBehavior behavior;
 	private ReceiptGenerator receiptGenerator;
-	private CurrentUsers currentUsers;
 	private Product book;
+	private User customer;
+	private User royaltyDepartment;
 
 	private void pay() {
-		behavior.pay(currentUsers, book);
+		behavior.pay(customer, book);
 	}
 
 	private Receipt expectedReceipt(Product product) {
-		return new ReceiptWithVisibleInternals(currentUsers.getCustomer(),
-				product);
+		return new ReceiptWithVisibleInternals(customer, product);
 	}
 
 	private void assertUserReceivedReceipt(User user, Product product) {
@@ -42,22 +40,24 @@ public class TestReceiptForBookToRoyaltyDepartmentBehavior {
 	@Before
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
-		currentUsers = new CurrentMockedUsers();
-		behavior = new ReceiptForBookToRoyaltyDepartmentBehavior(receiptGenerator);
+		customer = mock(User.class);
+		royaltyDepartment = mock(User.class);
+		behavior = new ReceiptForBookToRoyaltyDepartmentBehavior(
+				receiptGenerator, royaltyDepartment);
 		book = ProductFixture.createSomeBook();
 	}
 
 	@Test
 	public void pay_Book_receiptIsIssuedToRoyaltyDepartment() {
 		pay();
-		assertUserReceivedReceipt(currentUsers.getRoyaltyDepartment(), book);
+		assertUserReceivedReceipt(royaltyDepartment, book);
 	}
 
 	@Test
 	public void isApplicable_onlyTrueForPhysicalProducts() {
 		Product nonBook = mock(Product.class);
-		assertThat("Must be applicable to book.",
-				behavior.isApplicable(book), is(true));
+		assertThat("Must be applicable to book.", behavior.isApplicable(book),
+				is(true));
 		assertThat("Must not be applicable to non book.",
 				behavior.isApplicable(nonBook), is(false));
 	}

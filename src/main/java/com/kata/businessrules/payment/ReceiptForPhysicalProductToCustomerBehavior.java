@@ -1,7 +1,6 @@
 package com.kata.businessrules.payment;
 
 import com.google.common.base.Preconditions;
-import com.kata.businessrules.CurrentUsers;
 import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
 import com.kata.businessrules.User;
@@ -18,10 +17,9 @@ public class ReceiptForPhysicalProductToCustomerBehavior implements PaymentBehav
 	}
 	
 	@Override
-	public void pay(CurrentUsers users, Product product) {
-		Preconditions.checkNotNull(users);		
-		Preconditions.checkNotNull(product);
-		User customer = users.getCustomer();
+	public void pay(User customer, Product product) {
+		Preconditions.checkNotNull(customer);		
+		Preconditions.checkNotNull(product);		
 		Receipt receipt = receiptGenerator.generateReceipt(customer, product);
 		customer.issueReceipt(receipt);
 	}
