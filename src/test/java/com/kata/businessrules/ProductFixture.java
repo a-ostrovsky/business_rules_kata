@@ -6,6 +6,7 @@ import com.kata.businessrules.products.Book;
 import com.kata.businessrules.products.Membership;
 import com.kata.businessrules.products.PhysicalProduct;
 import com.kata.businessrules.products.Product;
+import com.kata.businessrules.products.UpgradedMembership;
 
 public class ProductFixture {
 	public static Product createSomePhysicalProduct() {
@@ -18,6 +19,10 @@ public class ProductFixture {
 	
 	public static Product createSomeMembership() {
 		return mock(Membership.class);
+	}
+	
+	public static Product createSomeUpgradedMembership() {
+		return mock(UpgradedMembership.class);
 	}
 	
 	public static Product createArbitraryProduct() {

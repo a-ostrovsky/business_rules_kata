@@ -11,27 +11,27 @@ import com.kata.businessrules.ProductFixture;
 import com.kata.businessrules.User;
 import com.kata.businessrules.products.Product;
 
-public class TestMembershipStatus {
-	private MembershipStatus status;
+public class TestUpgradedMembershipStatus {
+	private Status status;
 	private User customer;
 
 	@Before
 	public void setup() {
-		status = new MembershipStatus();
+		status = new UpgradedMembershipStatus();
 		customer = CustomerFixture.createCustomer();
 	}
 
 	@Test
 	public void hasStatus_customerHasNeverBoughtAMembership_false() {
-		Product notAMembership = ProductFixture.createSomeBook();
-		customer.purchase(notAMembership);
+		Product notAnUpgradedMembership = ProductFixture.createSomeBook();
+		customer.purchase(notAnUpgradedMembership);
 		assertThat(status.hasStatus(customer), is(false));
 	}
 
 	@Test
 	public void hasStatus_customerHasBoughtAMembership_true() {
-		Product membership = ProductFixture.createSomeMembership();
-		customer.purchase(membership);
+		Product upgradedMembership = ProductFixture.createSomeUpgradedMembership();
+		customer.purchase(upgradedMembership);
 		assertThat(status.hasStatus(customer), is(true));
 	}
 }
