@@ -1,5 +1,5 @@
 package com.kata.businessrules.products;
 
-public class UpgradedMembership implements Product {
+public class UpgradedMembership extends Membership {
 
 }

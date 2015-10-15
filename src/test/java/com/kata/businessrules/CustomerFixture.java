@@ -6,7 +6,7 @@ import java.util.Collection;
 import com.kata.businessrules.products.Product;
 
 public class CustomerFixture {
-	public static User createCustomer() {
+	public static User createCustomerWithPurchasedProductsStoredInMemory() {
 		User user = new User() {
 
 			private final Collection<Product> purchasedProducts = new ArrayList<>();

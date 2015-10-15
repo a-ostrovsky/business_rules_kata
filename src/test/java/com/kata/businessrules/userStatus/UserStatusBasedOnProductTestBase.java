@@ -23,7 +23,7 @@ public abstract class UserStatusBasedOnProductTestBase {
 	@Before
 	public void setup() {
 		status = createStatus();
-		customer = CustomerFixture.createCustomer();
+		customer = CustomerFixture.createCustomerWithPurchasedProductsStoredInMemory();
 	}
 
 	@Test
