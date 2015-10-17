@@ -1,16 +1,13 @@
 package com.kata.businessrules.payment.userDefinedRules.filters;
 
-import org.junit.Test;
-
-import com.kata.businessrules.ProductFixture;
-import com.kata.businessrules.products.Book;
-import com.kata.businessrules.products.Product;
-import com.kata.businessrules.products.Video;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
+import org.junit.Test;
+
+import com.kata.businessrules.products.Product;
+import com.kata.businessrules.products.Video;
 
 public class TestTitleFilterIgnoringCase {
 

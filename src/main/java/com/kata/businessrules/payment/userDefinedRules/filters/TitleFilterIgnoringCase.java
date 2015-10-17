@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kata.businessrules.products.Product;
-import com.kata.businessrules.products.Video;
 
 public class TitleFilterIgnoringCase implements Filter {
 
