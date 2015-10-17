@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.kata.businessrules.DummyReceiptGenerator;
+import com.kata.businessrules.InMemoryProductRepository;
 import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
 import com.kata.businessrules.ReceiptWithVisibleInternals;
@@ -17,10 +18,12 @@ import com.kata.businessrules.products.Product;
 import com.kata.businessrules.products.Video;
 
 public class TestFirstAidVideoAddingBehavior {
+
 	private PaymentBehavior behavior;
 	private ReceiptGenerator receiptGenerator;
 	private Video videoLearningToSki;
 	private User customer;
+	private InMemoryProductRepository productRepository;
 
 	private void pay() {
 		behavior.pay(customer, videoLearningToSki);
@@ -38,14 +41,19 @@ public class TestFirstAidVideoAddingBehavior {
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
 		customer = mock(User.class);
-		behavior = new FirstAidVideoAddingBehavior(receiptGenerator);
+		productRepository = new InMemoryProductRepository();
+		behavior = new FirstAidVideoAddingBehavior(receiptGenerator,
+				productRepository);
 		videoLearningToSki = new Video("Learning to Ski");
 	}
 
 	@Test
 	public void pay_Video_receiptForFirstAidVideoIsAdded() {
-		pay();
 		Video firstAidVideo = new Video("First Aid");
+		productRepository.addProduct(
+				FirstAidVideoAddingBehavior.FIRST_AID_VIDEO_ID, firstAidVideo);
+		
+		pay();
 		assertUserReceivedReceipt(customer, firstAidVideo);
 	}
 
