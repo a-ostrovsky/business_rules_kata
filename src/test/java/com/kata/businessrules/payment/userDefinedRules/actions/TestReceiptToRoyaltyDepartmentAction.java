@@ -41,7 +41,7 @@ public class TestReceiptToRoyaltyDepartmentAction {
 
 	@Test
 	public void execute_receiptIsIssuedToRoyaltyDepartment() {
-		action.execute(customer, product);
+		action.execute(customer, product, null);
 		assertUserReceivedReceipt(royaltyDepartment, product);
 	}
 }

@@ -13,8 +13,7 @@ public class ActivationMessageForMembershipBehavior implements PaymentBehavior {
 
 	public ActivationMessageForMembershipBehavior(Contact contact) {
 		Preconditions.checkNotNull(contact);
-		this.contact = contact;
-		// TODO Auto-generated constructor stub
+		this.contact = contact; 
 	}
 
 	@Override
