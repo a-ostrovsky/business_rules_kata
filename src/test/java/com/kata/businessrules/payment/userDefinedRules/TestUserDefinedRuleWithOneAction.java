@@ -26,15 +26,23 @@ public class TestUserDefinedRuleWithOneAction {
 	private Filter filter;
 	private Action action;
 	private Map<String, Object> namedParameters;
+	private NamedParametersBuilder namedParametersBuilder;
+
+	private void createNamedParamtersBuilder() {
+		namedParameters = new HashMap<String, Object>();
+		namedParametersBuilder = mock(NamedParametersBuilder.class);
+		when(namedParametersBuilder.build(customer, product))
+				.thenReturn(namedParameters);
+	}
 
 	@Before
 	public void setup() {
 		filter = mock(Filter.class);
 		action = mock(Action.class);
 		customer = mock(User.class);
-		namedParameters = new HashMap<String, Object>();
+		createNamedParamtersBuilder();
 		behavior = new UserDefinedRuleWithOneAction(filter, action,
-				namedParameters);
+				namedParametersBuilder);
 		product = ProductFixture.createArbitraryProduct();
 	}
 

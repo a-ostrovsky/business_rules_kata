@@ -13,19 +13,21 @@ public class UserDefinedRuleWithOneAction implements PaymentBehavior {
 
 	private Action action;
 	private Filter filter;
-	private Map<String, Object> namedParameters;
+	private NamedParametersBuilder namedParametersBuilder;
 
 	public UserDefinedRuleWithOneAction(Filter filter, Action action,
-			Map<String, Object> namedParameters) {
+			NamedParametersBuilder namedParametersBuilder) {
 		Preconditions.checkNotNull(filter);
 		Preconditions.checkNotNull(action);
 		this.filter = filter;
 		this.action = action;
-		this.namedParameters = namedParameters;
+		this.namedParametersBuilder = namedParametersBuilder;
 	}
 
 	@Override
 	public void pay(User customer, Product product) {
+		Map<String, Object> namedParameters = namedParametersBuilder
+				.build(customer, product);
 		action.execute(customer, product, namedParameters);
 	}
 
