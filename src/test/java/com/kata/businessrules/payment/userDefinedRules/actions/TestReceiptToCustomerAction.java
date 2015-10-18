@@ -38,7 +38,7 @@ public class TestReceiptToCustomerAction {
 	}
 
 	@Test
-	public void pay_PhysicalProduct_receiptIsIssuedToCustomer() {
+	public void execute_receiptIsIssuedToCustomer() {
 		action.execute(customer, product);
 		assertUserReceivedReceipt(customer, product);
 	}
