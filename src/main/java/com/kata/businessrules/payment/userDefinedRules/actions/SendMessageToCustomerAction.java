@@ -22,7 +22,11 @@ public class SendMessageToCustomerAction implements Action {
 			Map<String, Object> namedParameters) {
 		Preconditions.checkNotNull(customer);
 		Preconditions.checkNotNull(namedParameters);
-		Message message = (Message)namedParameters.get("message");
+		Message message = (Message) namedParameters.get("message");
+		if (message == null) {
+			throw new IllegalArgumentException(
+					"namedParameters must contain a message to send.");
+		}
 		contact.sendMessage(customer, message);
 	}
 
