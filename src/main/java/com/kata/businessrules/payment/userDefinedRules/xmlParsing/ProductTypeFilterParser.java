@@ -14,11 +14,13 @@ public class ProductTypeFilterParser implements FilterParser {
 	}
 
 	@Override
-	public boolean canParse(Element element) {
+	public boolean canParse(Element element) {		
+		boolean isNameCorrect = "whenPaidFor"
+				.equalsIgnoreCase(element.getTagName());
 		boolean hasProductTypeAttribute = !Strings
 				.isNullOrEmpty(element.getAttribute("productType"));
 		boolean hasOtherAttributes = element.getAttributes().getLength() != 1;
-		return hasProductTypeAttribute && !hasOtherAttributes;
+		return isNameCorrect && hasProductTypeAttribute && !hasOtherAttributes;
 	}
 
 }

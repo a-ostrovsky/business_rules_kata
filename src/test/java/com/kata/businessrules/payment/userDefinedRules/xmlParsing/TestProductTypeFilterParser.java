@@ -40,4 +40,9 @@ public class TestProductTypeFilterParser {
 		verifyCanParse(false,
 				"<whenPaidFor productType=\"Video\" productTtitle=\"Learning to Ski\"/>");
 	}
+
+	@Test
+	public void canParse_notWhenPaidForFilter_false() throws Exception {
+		verifyCanParse(false, "<SOMETHING_ELSE productType=\"Video\"/>");
+	}	
 }
