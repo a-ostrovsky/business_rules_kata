@@ -4,9 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.w3c.dom.Element;
 
 import com.kata.businessrules.ProductFixture;
@@ -15,9 +13,6 @@ import com.kata.businessrules.payment.userDefinedRules.filters.Filter;
 import com.kata.businessrules.products.Product;
 
 public class TestProductTypeFilterParser {
-
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
 
 	private ProductTypeFilterParser parser;
 	
