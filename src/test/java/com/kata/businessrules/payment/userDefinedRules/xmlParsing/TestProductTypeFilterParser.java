@@ -18,15 +18,9 @@ public class TestProductTypeFilterParser {
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
-	
+
 	private ProductTypeFilterParser parser;
-
-	private void verifyCanParse(boolean expectedCanParse, String xmlElement)
-			throws Exception {
-		assertThat(parser.canParse(XmlElement.fromText(xmlElement)),
-				is(expectedCanParse));
-	}
-
+	
 	@Before
 	public void setup() {
 		parser = new ProductTypeFilterParser();
@@ -43,29 +37,32 @@ public class TestProductTypeFilterParser {
 
 	@Test
 	public void canParse_onlyProductTypeAttribute_true() throws Exception {
-		verifyCanParse(true, "<whenPaidFor productType=\"Membership\"/>");
+		ParserAssert.canParse(parser,
+				"<whenPaidFor productType=\"Membership\"/>");
 	}
-	
+
 	@Test
 	public void canParse_productTypeThatDoesNotExist_false() throws Exception {
-		verifyCanParse(false, "<whenPaidFor productType=\"ProductTypeThatDoesNotExist\"/>");
+		ParserAssert.cannotParse(parser,
+				"<whenPaidFor productType=\"ProductTypeThatDoesNotExist\"/>");
 	}
 
 	@Test
 	public void canParse_noProductTypeAttribute_false() throws Exception {
-		verifyCanParse(false,
+		ParserAssert.cannotParse(parser,
 				"<whenPaidFor productTtitle=\"Learning to Ski\"/>");
 	}
 
 	@Test
 	public void canParse_productTypeAttributeInCombinationWithAnotherAttribute_false()
 			throws Exception {
-		verifyCanParse(false,
+		ParserAssert.cannotParse(parser,
 				"<whenPaidFor productType=\"Video\" productTtitle=\"Learning to Ski\"/>");
 	}
 
 	@Test
 	public void canParse_notWhenPaidForFilter_false() throws Exception {
-		verifyCanParse(false, "<SOMETHING_ELSE productType=\"Video\"/>");
+		ParserAssert.cannotParse(parser,
+				"<SOMETHING_ELSE productType=\"Video\"/>");
 	}
 }
