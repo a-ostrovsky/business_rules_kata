@@ -22,7 +22,7 @@ public class TestProductTypeFilterParser {
 	}
 
 	@Test
-	public void parse_validType_productOfGivenType() throws Exception {
+	public void parse_validType_filterForProductOfGivenType() throws Exception {
 		Product applicableProduct = ProductFixture.createSomeMembership();
 		Element element = XmlElement
 				.fromText("<whenPaidFor productType=\"Membership\"/>");
