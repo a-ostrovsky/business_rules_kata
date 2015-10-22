@@ -13,6 +13,9 @@ import org.xml.sax.SAXException;
 public class XmlElement {
 	public static Element fromText(String contents)
 			throws ParserConfigurationException, SAXException, IOException {
+		if (contents == null) {
+			return null;
+		}
 		DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder();
 		Document document = documentBuilder

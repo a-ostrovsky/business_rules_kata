@@ -6,6 +6,7 @@ import java.util.Set;
 import org.reflections.Reflections;
 import org.w3c.dom.Element;
 
+import com.google.common.base.Preconditions;
 import com.kata.businessrules.payment.userDefinedRules.filters.Filter;
 import com.kata.businessrules.payment.userDefinedRules.filters.ProductTypeFilter;
 import com.kata.businessrules.products.Product;
@@ -26,18 +27,24 @@ public class ProductTypeFilterParser implements FilterParser {
 
 	@Override
 	public Filter parse(Element element) {
-		String productTypeName = element.getAttribute("productType");		
-		Optional<Class<? extends Product>> productType = getProductType(productTypeName);		
+		Preconditions.checkNotNull(element);
+		String productTypeName = element.getAttribute("productType");
+		Optional<Class<? extends Product>> productType = getProductType(
+				productTypeName);
 		return new ProductTypeFilter(productType.get());
 
 	}
 
 	@Override
 	public boolean canParse(Element element) {
+		if (element == null) {
+			return false;
+		}
 		boolean isNameCorrect = "whenPaidFor"
 				.equalsIgnoreCase(element.getTagName());
 		String productTypeName = element.getAttribute("productType");
-		boolean isProductTypeCorrect = getProductType(productTypeName).isPresent();
+		boolean isProductTypeCorrect = getProductType(productTypeName)
+				.isPresent();
 		boolean hasOtherAttributes = element.getAttributes().getLength() != 1;
 		return isNameCorrect && isProductTypeCorrect && !hasOtherAttributes;
 	}

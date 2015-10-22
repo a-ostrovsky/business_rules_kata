@@ -60,4 +60,9 @@ public class TestProductTypeFilterParser {
 		ParserAssert.cannotParse(parser,
 				"<SOMETHING_ELSE productType=\"Video\"/>");
 	}
+	
+	@Test
+	public void canParse_null_false() throws Exception {
+		ParserAssert.cannotParse(parser, null);
+	}
 }
