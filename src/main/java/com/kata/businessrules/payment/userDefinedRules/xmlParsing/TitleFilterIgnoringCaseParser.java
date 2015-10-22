@@ -2,15 +2,18 @@ package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
 import org.w3c.dom.Element;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.kata.businessrules.payment.userDefinedRules.filters.Filter;
+import com.kata.businessrules.payment.userDefinedRules.filters.TitleFilterIgnoringCase;
 
 public class TitleFilterIgnoringCaseParser implements FilterParser {
 
 	@Override
 	public Filter parse(Element element) {
-		// TODO Auto-generated method stub
-		return null;
+		Preconditions.checkNotNull(element);
+		String productTitle = element.getAttribute("productTitle");
+		return new TitleFilterIgnoringCase(productTitle);		
 	}
 
 	@Override

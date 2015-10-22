@@ -1,7 +1,16 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Element;
+
+import com.kata.businessrules.ProductFixture;
+import com.kata.businessrules.XmlElement;
+import com.kata.businessrules.payment.userDefinedRules.filters.Filter;
+import com.kata.businessrules.products.Product;
 
 public class TestTitleFilterIgnoringCaseParser {
 	private TitleFilterIgnoringCaseParser parser;
@@ -9,6 +18,15 @@ public class TestTitleFilterIgnoringCaseParser {
 	@Before
 	public void setup() {
 		parser = new TitleFilterIgnoringCaseParser();
+	}
+	
+	@Test
+	public void parse_title_filterForProductWithGivenType() throws Exception {
+		Product applicableProduct = ProductFixture.createProduct("product title");
+		Element element = XmlElement
+				.fromText("<whenPaidFor productTitle=\"product title\"/>");
+		Filter filter = parser.parse(element);
+		assertThat(filter.isApplicable(applicableProduct), is(true));
 	}
 
 	@Test
