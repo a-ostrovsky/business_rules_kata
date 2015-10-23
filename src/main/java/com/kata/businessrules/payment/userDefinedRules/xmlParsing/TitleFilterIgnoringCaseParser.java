@@ -7,7 +7,7 @@ import com.google.common.base.Strings;
 import com.kata.businessrules.payment.userDefinedRules.filters.Filter;
 import com.kata.businessrules.payment.userDefinedRules.filters.TitleFilterIgnoringCase;
 
-public class TitleFilterIgnoringCaseParser implements FilterParser {
+public class TitleFilterIgnoringCaseParser implements Parser<Filter> {
 
 	@Override
 	public Filter parse(Element element) {

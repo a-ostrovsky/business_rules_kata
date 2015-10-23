@@ -11,7 +11,7 @@ import com.kata.businessrules.payment.userDefinedRules.filters.Filter;
 import com.kata.businessrules.payment.userDefinedRules.filters.ProductTypeFilter;
 import com.kata.businessrules.products.Product;
 
-public class ProductTypeFilterParser implements FilterParser {
+public class ProductTypeFilterParser implements Parser<Filter> {
 
 	private Optional<Class<? extends Product>> getProductType(
 			String productTypeName) {
