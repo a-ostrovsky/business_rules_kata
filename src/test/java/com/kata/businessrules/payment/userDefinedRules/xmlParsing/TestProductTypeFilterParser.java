@@ -63,6 +63,6 @@ public class TestProductTypeFilterParser {
 	
 	@Test
 	public void canParse_null_false() throws Exception {
-		ParserAssert.cannotParse(parser, null);
+		ParserAssert.cannotParse(parser, (Element)null);
 	}
 }

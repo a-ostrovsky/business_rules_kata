@@ -19,10 +19,11 @@ public class TestTitleFilterIgnoringCaseParser {
 	public void setup() {
 		parser = new TitleFilterIgnoringCaseParser();
 	}
-	
+
 	@Test
 	public void parse_title_filterForProductWithGivenType() throws Exception {
-		Product applicableProduct = ProductFixture.createProduct("product title");
+		Product applicableProduct = ProductFixture
+				.createProduct("product title");
 		Element element = XmlElement
 				.fromText("<whenPaidFor productTitle=\"product title\"/>");
 		Filter filter = parser.parse(element);
@@ -56,6 +57,6 @@ public class TestTitleFilterIgnoringCaseParser {
 
 	@Test
 	public void canParse_null_false() throws Exception {
-		ParserAssert.cannotParse(parser, null);
+		ParserAssert.cannotParse(parser, (Element) null);
 	}
 }

@@ -1,20 +1,28 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
+import java.util.Collection;
+
 import org.w3c.dom.Element;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.kata.businessrules.User;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
-import com.kata.businessrules.payment.userDefinedRules.actions.ActionFactory;
-import com.kata.businessrules.payment.userDefinedRules.actions.IssueReceiptAction;
+import com.kata.businessrules.payment.userDefinedRules.actions.Selector;
+import com.kata.businessrules.products.Product;
 
 public class IssueReceiptActionParser implements Parser<Action> {
 
-	private ActionFactory<IssueReceiptAction> factory;
+	private Collection<Parser<Selector<User>>> receiverSelectorParsers;
+	private Collection<Parser<Selector<Product>>> productSelectorParsers;
 
-	public IssueReceiptActionParser(ActionFactory<IssueReceiptAction> factory) {
-		Preconditions.checkNotNull(factory);
-		this.factory = factory;
+	public IssueReceiptActionParser(
+			Collection<Parser<Selector<User>>> receiverSelectorParsers,
+			Collection<Parser<Selector<Product>>> productSelectorParsers) {
+		Preconditions.checkNotNull(receiverSelectorParsers);
+		Preconditions.checkNotNull(productSelectorParsers);
+		this.receiverSelectorParsers = receiverSelectorParsers;
+		this.productSelectorParsers = productSelectorParsers;
 	}
 
 	@Override
@@ -30,14 +38,11 @@ public class IssueReceiptActionParser implements Parser<Action> {
 		}
 		boolean isNameCorrect = "receiptFor"
 				.equalsIgnoreCase(element.getTagName());
-		String receiver = element.getAttribute("receiver");
-		boolean isReceiverTheCustomer = "customer".equalsIgnoreCase(receiver);
-		boolean hasReceiverId = !Strings
-				.isNullOrEmpty(element.getAttribute("receiverId"));
-		boolean hasCorrectNumberOfAttributes = element.getAttributes()
-				.getLength() == 2;
-		return isNameCorrect && (isReceiverTheCustomer || hasReceiverId)
-				&& hasCorrectNumberOfAttributes;
+		boolean canParseReceiver = receiverSelectorParsers.stream()
+				.anyMatch(parser -> parser.canParse(element));
+		boolean canParseProduct = productSelectorParsers.stream()
+				.anyMatch(parser -> parser.canParse(element));
+		return isNameCorrect && canParseReceiver && canParseProduct;
 	}
 
 }
