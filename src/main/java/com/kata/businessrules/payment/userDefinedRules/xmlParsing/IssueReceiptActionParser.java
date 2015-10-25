@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.w3c.dom.Element;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 import com.kata.businessrules.User;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
 import com.kata.businessrules.payment.userDefinedRules.actions.Selector;
