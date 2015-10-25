@@ -9,7 +9,7 @@ public class ReceiverIsCustomerParser implements Parser<Selector<User>> {
 
 	@Override
 	public Selector<User> parse(Element element) {
-		return user -> user;
+		return customer -> customer;
 	}
 
 	@Override

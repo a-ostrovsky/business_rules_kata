@@ -35,7 +35,7 @@ public class TestReceiverIsCustomerParser {
 	}
 
 	@Test
-	public void canParse_receiverIsNotCustomerAndIdIsNotGiven_false()
+	public void canParse_receiverIsNotCustomer_false()
 			throws Exception {
 		ParserAssert.cannotParse(parser,
 				"<does_not_matter receiver=\"not_customer\" />");
