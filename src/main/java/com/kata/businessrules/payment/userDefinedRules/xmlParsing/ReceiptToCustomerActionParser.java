@@ -2,13 +2,24 @@ package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
 import org.w3c.dom.Element;
 
+import com.google.common.base.Preconditions;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
+import com.kata.businessrules.payment.userDefinedRules.actions.ActionFactory;
+import com.kata.businessrules.payment.userDefinedRules.actions.ReceiptToCustomerAction;
 
 public class ReceiptToCustomerActionParser implements Parser<Action> {
 
+	private ActionFactory<ReceiptToCustomerAction> factory;
+
+	public ReceiptToCustomerActionParser(
+			ActionFactory<ReceiptToCustomerAction> factory) {
+		Preconditions.checkNotNull(factory);
+		this.factory = factory;
+	}
+
 	@Override
 	public Action parse(Element element) {
-		// TODO Auto-generated method stub
+		Preconditions.checkNotNull(element);
 		return null;
 	}
 
