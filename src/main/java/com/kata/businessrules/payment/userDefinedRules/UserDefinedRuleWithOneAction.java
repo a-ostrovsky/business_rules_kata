@@ -1,7 +1,5 @@
 package com.kata.businessrules.payment.userDefinedRules;
 
-import java.util.Map;
-
 import com.google.common.base.Preconditions;
 import com.kata.businessrules.User;
 import com.kata.businessrules.payment.PaymentBehavior;
@@ -13,21 +11,16 @@ public class UserDefinedRuleWithOneAction implements PaymentBehavior {
 
 	private Action action;
 	private Filter filter;
-	private NamedParametersBuilder namedParametersBuilder;
 
-	public UserDefinedRuleWithOneAction(Filter filter, Action action,
-			NamedParametersBuilder namedParametersBuilder) {
+	public UserDefinedRuleWithOneAction(Filter filter, Action action) {
 		Preconditions.checkNotNull(filter);
 		Preconditions.checkNotNull(action);
 		this.filter = filter;
-		this.action = action;
-		this.namedParametersBuilder = namedParametersBuilder;
+		this.action = action;		
 	}
 
 	@Override
-	public void pay(User customer, Product product) {
-		Map<String, Object> namedParameters = namedParametersBuilder
-				.build(customer, product);
+	public void pay(User customer, Product product) {		
 		action.execute(customer, product);
 	}
 

@@ -7,8 +7,6 @@ import com.kata.businessrules.payment.userDefinedRules.FixedActionFactory;
 import com.kata.businessrules.payment.userDefinedRules.actions.ActionFactory;
 import com.kata.businessrules.payment.userDefinedRules.actions.ReceiptToCustomerAction;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class TestReceiptToCustomerActionParser {

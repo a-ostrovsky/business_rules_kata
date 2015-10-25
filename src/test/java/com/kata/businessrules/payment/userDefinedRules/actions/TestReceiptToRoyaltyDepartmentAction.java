@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.kata.businessrules.DummyReceiptGenerator;
-import com.kata.businessrules.InMemoryProductRepository;
 import com.kata.businessrules.InMemoryUserRepository;
 import com.kata.businessrules.ProductFixture;
 import com.kata.businessrules.Receipt;

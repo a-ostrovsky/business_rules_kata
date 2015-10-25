@@ -6,9 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,25 +21,14 @@ public class TestUserDefinedRuleWithOneAction {
 	private Product product;
 	private User customer;
 	private Filter filter;
-	private Action action;
-	private Map<String, Object> namedParameters;
-	private NamedParametersBuilder namedParametersBuilder;
-
-	private void createNamedParamtersBuilder() {
-		namedParameters = new HashMap<String, Object>();
-		namedParametersBuilder = mock(NamedParametersBuilder.class);
-		when(namedParametersBuilder.build(customer, product))
-				.thenReturn(namedParameters);
-	}
+	private Action action;	
 
 	@Before
 	public void setup() {
 		filter = mock(Filter.class);
 		action = mock(Action.class);
 		customer = mock(User.class);
-		createNamedParamtersBuilder();
-		behavior = new UserDefinedRuleWithOneAction(filter, action,
-				namedParametersBuilder);
+		behavior = new UserDefinedRuleWithOneAction(filter, action);
 		product = ProductFixture.createArbitraryProduct();
 	}
 
