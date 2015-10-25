@@ -5,14 +5,14 @@ import org.w3c.dom.Element;
 import com.google.common.base.Preconditions;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
 import com.kata.businessrules.payment.userDefinedRules.actions.ActionFactory;
-import com.kata.businessrules.payment.userDefinedRules.actions.ReceiptToCustomerAction;
+import com.kata.businessrules.payment.userDefinedRules.actions.IssueReceiptAction;
 
 public class ReceiptToCustomerActionParser implements Parser<Action> {
 
-	private ActionFactory<ReceiptToCustomerAction> factory;
+	private ActionFactory<IssueReceiptAction> factory;
 
 	public ReceiptToCustomerActionParser(
-			ActionFactory<ReceiptToCustomerAction> factory) {
+			ActionFactory<IssueReceiptAction> factory) {
 		Preconditions.checkNotNull(factory);
 		this.factory = factory;
 	}

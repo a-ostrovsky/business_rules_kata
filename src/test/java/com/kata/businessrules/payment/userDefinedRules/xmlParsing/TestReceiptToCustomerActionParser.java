@@ -5,19 +5,19 @@ import org.junit.Test;
 
 import com.kata.businessrules.payment.userDefinedRules.FixedActionFactory;
 import com.kata.businessrules.payment.userDefinedRules.actions.ActionFactory;
-import com.kata.businessrules.payment.userDefinedRules.actions.ReceiptToCustomerAction;
+import com.kata.businessrules.payment.userDefinedRules.actions.IssueReceiptAction;
 
 import static org.mockito.Mockito.*;
 
 public class TestReceiptToCustomerActionParser {
 	private ReceiptToCustomerActionParser parser;
-	private ActionFactory<ReceiptToCustomerAction> factory;
-	private ReceiptToCustomerAction action;
+	private ActionFactory<IssueReceiptAction> factory;
+	private IssueReceiptAction action;
 
 	@Before
 	public void setup() {
-		action = mock(ReceiptToCustomerAction.class);
-		factory = new FixedActionFactory<ReceiptToCustomerAction>(action);
+		action = mock(IssueReceiptAction.class);
+		factory = new FixedActionFactory<IssueReceiptAction>(action);
 		parser = new ReceiptToCustomerActionParser(factory);
 	}
 
