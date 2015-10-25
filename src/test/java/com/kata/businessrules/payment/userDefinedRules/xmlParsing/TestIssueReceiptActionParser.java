@@ -22,17 +22,21 @@ public class TestIssueReceiptActionParser {
 	}
 
 	@Test
-	public void canParse_receiverIsCustomer_true() throws Exception {
+	public void canParse_receiverAttributeIsCustomer_true() throws Exception {
 		ParserAssert.canParse(parser,
 				"<receiptFor product=\"bought\" receiver=\"customer\" />");
 	}
 
 	@Test
-	public void canParse_receiverIsNotCustomer_false() throws Exception {
+	public void canParse_receiverAttributeIsNotCustomer_false() throws Exception {
 		ParserAssert.cannotParse(parser,
-				"<receiptFor product=\"bought\" receiver=\"royaltyDepartment\" />");
+				"<receiptFor product=\"bought\" receiver=\"something_else\" />");
 	}
-
+	@Test
+	public void canParse_receiverIdIsGiven_false() throws Exception {
+		ParserAssert.canParse(parser,
+				"<receiptFor product=\"bought\" receiverId=\"royaltyDepartment\" />");
+	}
 	@Test
 	public void canParse_thereAreAnotherAttriburesThanReceiverAndProduct_false()
 			throws Exception {
