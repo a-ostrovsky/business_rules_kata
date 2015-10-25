@@ -7,11 +7,11 @@ import com.kata.businessrules.payment.userDefinedRules.actions.Action;
 import com.kata.businessrules.payment.userDefinedRules.actions.ActionFactory;
 import com.kata.businessrules.payment.userDefinedRules.actions.IssueReceiptAction;
 
-public class ReceiptToCustomerActionParser implements Parser<Action> {
+public class IssueReceiptActionParser implements Parser<Action> {
 
 	private ActionFactory<IssueReceiptAction> factory;
 
-	public ReceiptToCustomerActionParser(
+	public IssueReceiptActionParser(
 			ActionFactory<IssueReceiptAction> factory) {
 		Preconditions.checkNotNull(factory);
 		this.factory = factory;

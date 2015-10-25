@@ -9,8 +9,8 @@ import com.kata.businessrules.payment.userDefinedRules.actions.IssueReceiptActio
 
 import static org.mockito.Mockito.*;
 
-public class TestReceiptToCustomerActionParser {
-	private ReceiptToCustomerActionParser parser;
+public class TestIssueReceiptActionParser {
+	private IssueReceiptActionParser parser;
 	private ActionFactory<IssueReceiptAction> factory;
 	private IssueReceiptAction action;
 
@@ -18,7 +18,7 @@ public class TestReceiptToCustomerActionParser {
 	public void setup() {
 		action = mock(IssueReceiptAction.class);
 		factory = new FixedActionFactory<IssueReceiptAction>(action);
-		parser = new ReceiptToCustomerActionParser(factory);
+		parser = new IssueReceiptActionParser(factory);
 	}
 
 	@Test
