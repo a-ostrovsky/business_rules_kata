@@ -34,21 +34,12 @@ public class TestSendMessageToCustomerAction {
 		customer = mock(User.class);
 		contact = mock(Contact.class);
 		message = mock(Message.class);
-		action = new SendMessageToCustomerAction(contact);
+		action = new SendMessageToCustomerAction(contact, message);
 	}
 
 	@Test
-	public void execute_messageIsProvided_messageIsSentToCustomer() {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("message", message);
-		action.execute(customer, null, parameters);
+	public void execute_messageIsSentToCustomer() {		
+		action.execute(customer, null);
 		verifyCustomerHasReceivedMessage();
 	}
-
-	@Test
-	public void execute_messageIsNotProvided_IllegalArgumentExceptoin() {
-		exception.expect(IllegalArgumentException.class);
-		Map<String, Object> parametersWithoutMessage = new HashMap<String, Object>();
-		action.execute(customer, null, parametersWithoutMessage);
-	}	
 }

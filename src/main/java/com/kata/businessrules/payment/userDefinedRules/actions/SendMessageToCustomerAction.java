@@ -1,7 +1,5 @@
 package com.kata.businessrules.payment.userDefinedRules.actions;
 
-import java.util.Map;
-
 import com.google.common.base.Preconditions;
 import com.kata.businessrules.User;
 import com.kata.businessrules.contact.Contact;
@@ -11,22 +9,18 @@ import com.kata.businessrules.products.Product;
 public class SendMessageToCustomerAction implements Action {
 
 	private Contact contact;
-
-	public SendMessageToCustomerAction(Contact contact) {
+	private Message message;
+	
+	public SendMessageToCustomerAction(Contact contact, Message message) {
 		Preconditions.checkNotNull(contact);
+		Preconditions.checkNotNull(message);
+		this.message = message; 
 		this.contact = contact;
 	}
 
 	@Override
-	public void execute(User customer, Product product,
-			Map<String, Object> namedParameters) {
-		Preconditions.checkNotNull(customer);
-		Preconditions.checkNotNull(namedParameters);
-		Message message = (Message) namedParameters.get("message");
-		if (message == null) {
-			throw new IllegalArgumentException(
-					"namedParameters must contain a message to send.");
-		}
+	public void execute(User customer, Product product) {
+		Preconditions.checkNotNull(customer);		
 		contact.sendMessage(customer, message);
 	}
 

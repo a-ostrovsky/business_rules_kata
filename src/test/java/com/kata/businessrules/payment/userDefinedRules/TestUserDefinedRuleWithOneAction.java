@@ -49,7 +49,7 @@ public class TestUserDefinedRuleWithOneAction {
 	@Test
 	public void pay_actionIsExecuted() {
 		behavior.pay(customer, product);
-		verify(action).execute(customer, product, namedParameters);
+		verify(action).execute(customer, product);
 	}
 
 	@Test

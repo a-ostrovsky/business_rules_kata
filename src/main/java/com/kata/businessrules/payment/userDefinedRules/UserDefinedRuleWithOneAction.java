@@ -28,7 +28,7 @@ public class UserDefinedRuleWithOneAction implements PaymentBehavior {
 	public void pay(User customer, Product product) {
 		Map<String, Object> namedParameters = namedParametersBuilder
 				.build(customer, product);
-		action.execute(customer, product, namedParameters);
+		action.execute(customer, product);
 	}
 
 	@Override

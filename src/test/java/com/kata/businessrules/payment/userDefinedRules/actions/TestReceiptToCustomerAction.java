@@ -39,7 +39,7 @@ public class TestReceiptToCustomerAction {
 
 	@Test
 	public void execute_receiptIsIssuedToCustomer() {
-		action.execute(customer, product, null);
+		action.execute(customer, product);
 		assertUserReceivedReceipt(customer, product);
 	}
 }

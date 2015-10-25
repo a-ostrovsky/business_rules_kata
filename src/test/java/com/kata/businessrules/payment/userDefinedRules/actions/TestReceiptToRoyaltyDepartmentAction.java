@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.kata.businessrules.DummyReceiptGenerator;
+import com.kata.businessrules.InMemoryProductRepository;
+import com.kata.businessrules.InMemoryUserRepository;
 import com.kata.businessrules.ProductFixture;
 import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
@@ -34,14 +36,16 @@ public class TestReceiptToRoyaltyDepartmentAction {
 		receiptGenerator = new DummyReceiptGenerator();
 		customer = mock(User.class);
 		royaltyDepartment = mock(User.class);
-		action = new ReceiptToRoyaltyDepartmentAction(
-				receiptGenerator, royaltyDepartment);
+		InMemoryUserRepository userRepository = new InMemoryUserRepository();
+		userRepository.addUser("royaltyDepartment", royaltyDepartment);
+		action = new ReceiptToRoyaltyDepartmentAction(receiptGenerator,
+				userRepository);
 		product = ProductFixture.createArbitraryProduct();
 	}
 
 	@Test
 	public void execute_receiptIsIssuedToRoyaltyDepartment() {
-		action.execute(customer, product, null);
+		action.execute(customer, product);
 		assertUserReceivedReceipt(royaltyDepartment, product);
 	}
 }

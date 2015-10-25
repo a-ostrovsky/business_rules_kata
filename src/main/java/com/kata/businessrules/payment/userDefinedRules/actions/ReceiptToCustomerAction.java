@@ -1,7 +1,5 @@
 package com.kata.businessrules.payment.userDefinedRules.actions;
 
-import java.util.Map;
-
 import com.google.common.base.Preconditions;
 import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
@@ -18,8 +16,7 @@ public class ReceiptToCustomerAction implements Action {
 	}
 
 	@Override
-	public void execute(User customer, Product product,
-			Map<String, Object> namedParameters) {
+	public void execute(User customer, Product product) {
 		Preconditions.checkNotNull(customer);
 		Preconditions.checkNotNull(product);
 		Receipt receipt = receiptGenerator.generateReceipt(customer, product);
