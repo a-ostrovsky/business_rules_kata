@@ -6,22 +6,27 @@ import com.kata.businessrules.contact.Contact;
 import com.kata.businessrules.contact.Message;
 import com.kata.businessrules.products.Product;
 
-public class SendMessageToCustomerAction implements Action {
+public class SendMessageAction implements Action {
 
 	private Contact contact;
 	private Message message;
-	
-	public SendMessageToCustomerAction(Contact contact, Message message) {
+	private Selector<User> userSelector;
+
+	public SendMessageAction(Contact contact, Message message,
+			Selector<User> userSelector) {
 		Preconditions.checkNotNull(contact);
 		Preconditions.checkNotNull(message);
-		this.message = message; 
+		Preconditions.checkNotNull(userSelector);
+		this.message = message;
 		this.contact = contact;
+		this.userSelector = userSelector;
 	}
 
 	@Override
 	public void execute(User customer, Product product) {
-		Preconditions.checkNotNull(customer);		
-		contact.sendMessage(customer, message);
+		Preconditions.checkNotNull(customer);
+		User receiver = userSelector.select(customer);
+		contact.sendMessage(receiver, message);
 	}
 
 }

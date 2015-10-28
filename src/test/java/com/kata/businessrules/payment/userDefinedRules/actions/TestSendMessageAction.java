@@ -12,18 +12,19 @@ import com.kata.businessrules.User;
 import com.kata.businessrules.contact.Contact;
 import com.kata.businessrules.contact.Message;
 
-public class TestSendMessageToCustomerAction {
+public class TestSendMessageAction {
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
 	private Action action;
 	private Contact contact;
-	private User customer;
 	private Message message;
+	private User customer;
+	private User messageReceiver;
 
-	private void verifyCustomerHasReceivedMessage() {
-		verify(contact).sendMessage(customer, message);
+	private void verifyMessageHasBeenReceivedBy(User expectedReceiver) {
+		verify(contact).sendMessage(expectedReceiver, message);
 	}
 
 	@Before
@@ -31,12 +32,13 @@ public class TestSendMessageToCustomerAction {
 		customer = mock(User.class);
 		contact = mock(Contact.class);
 		message = mock(Message.class);
-		action = new SendMessageToCustomerAction(contact, message);
+		action = new SendMessageAction(contact, message,
+				new SelectorWithFixedResult<User>(customer, messageReceiver));
 	}
 
 	@Test
-	public void execute_messageIsSentToCustomer() {		
+	public void execute_messageIsSent() {
 		action.execute(customer, null);
-		verifyCustomerHasReceivedMessage();
+		verifyMessageHasBeenReceivedBy(messageReceiver);
 	}
 }

@@ -1,9 +1,6 @@
 package com.kata.businessrules.payment.userDefinedRules.actions;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,14 +29,6 @@ public class TestIssueReceiptAction {
 		verify(user).issueReceipt(expectedReceipt(product));
 	}
 
-	private <T> Selector<T> createSelectorWithFixedResult(T providedValue,
-			T fixedResult) {
-		@SuppressWarnings("unchecked")
-		Selector<T> result = (Selector<T>) mock(Selector.class);
-		when(result.select(providedValue)).thenReturn(fixedResult);
-		return result;
-	}
-
 	@Before
 	public void setup() {
 		receiptGenerator = new DummyReceiptGenerator();
@@ -51,8 +40,9 @@ public class TestIssueReceiptAction {
 		boughtProduct = ProductFixture.createArbitraryProduct();
 
 		action = new IssueReceiptAction(receiptGenerator,
-				createSelectorWithFixedResult(customer, receiverOfTheReceipt),
-				createSelectorWithFixedResult(boughtProduct,
+				new SelectorWithFixedResult<User>(customer,
+						receiverOfTheReceipt),
+				new SelectorWithFixedResult<Product>(boughtProduct,
 						productToReceiveReceiptFor));
 	}
 
