@@ -76,7 +76,7 @@ public class TestSendMessageActionParser {
 			throws Exception {
 		Element xml = XmlElement.fromText("<sendMessage receiver=\"customer\">"
 				+ "<message>hello</message>" + "</sendMessage>");
-		when(messageParser.parse(xml)).thenReturn(message);
+		when(messageParser.parse(argThat(isMessage))).thenReturn(message);
 		when(userSelectorParser.parse(xml)).thenReturn(userSelector);
 		Action expectedResult = setupSendMessageActionFactory(userSelector,
 				message);
