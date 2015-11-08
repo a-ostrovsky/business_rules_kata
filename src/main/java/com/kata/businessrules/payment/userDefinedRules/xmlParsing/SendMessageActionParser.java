@@ -1,9 +1,6 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
-import java.util.Collection;
-
 import org.w3c.dom.Element;
-
 import com.google.common.base.Preconditions;
 import com.kata.businessrules.User;
 import com.kata.businessrules.contact.Message;
@@ -13,15 +10,16 @@ import com.kata.businessrules.payment.userDefinedRules.actions.Selector;
 public class SendMessageActionParser implements Parser<Action> {
 
 	private Parser<Message> messageParser;
+	private Parser<Selector<User>> userSelectorParser;
 
 	public SendMessageActionParser(Parser<Message> messageParser,
-			//TODO: Collection<Parser<Selector<User>>> -> Parser<Selector<User>> that has
-			//the selection logic inside
-			Collection<Parser<Selector<User>>> userSelectorParsers) {
+			Parser<Selector<User>> userSelectorParser) {
+		Preconditions.checkNotNull(messageParser);
+		Preconditions.checkNotNull(userSelectorParser);
 		this.messageParser = messageParser;
-		Preconditions.checkNotNull(messageParser);		
+		this.userSelectorParser = userSelectorParser;
 	}
-	
+
 	@Override
 	public Action parse(Element element) {
 		// TODO Auto-generated method stub
@@ -30,8 +28,16 @@ public class SendMessageActionParser implements Parser<Action> {
 
 	@Override
 	public boolean canParse(Element element) {
-		// TODO Auto-generated method stub
-		return false;
+		if (element == null) {
+			return false;
+		}
+		boolean isNameCorrect = "sendMessage"
+				.equalsIgnoreCase(element.getTagName());
+		Element message = (Element) element.getElementsByTagName("message")
+				.item(0);
+		boolean canParseMessage = messageParser.canParse(message);
+		boolean canParseReceiver = userSelectorParser.canParse(element);
+		return isNameCorrect && canParseMessage && canParseReceiver;
 	}
 
 }
