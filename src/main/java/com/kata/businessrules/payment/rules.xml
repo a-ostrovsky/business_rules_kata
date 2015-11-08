@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+	<whenPaidFor productTitle="Learning to Ski">
+		<receiptFor productId="First_Aid_Id" receiver="customer" />
+	</whenPaidFor>
+
+	<whenPaidFor productType="Membership">
+		<sendMessage receiver="customer">
+			<message>Welcome...</message>
+		</sendMessage>
+	</whenPaidFor>
+
+	<whenPaidFor productType="PhysicalProduct">
+		<receiptFor product="bought" receiver="customer" />
+	</whenPaidFor>
+
+	<whenPaidFor productType="Book">
+		<receiptFor product="bought" receiver="royaltyDepartment" />
+	</whenPaidFor>
+</actions>
