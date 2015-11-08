@@ -32,6 +32,7 @@ public class TestSendMessageAction {
 		customer = mock(User.class);
 		communicationMethod = mock(CommunicationMethod.class);
 		message = mock(Message.class);
+		messageReceiver = mock(User.class);
 		action = new SendMessageAction(communicationMethod, message,
 				new SelectorWithFixedResult<User>(customer, messageReceiver));
 	}
