@@ -2,18 +2,18 @@ package com.kata.businessrules.payment;
 
 import com.google.common.base.Preconditions;
 import com.kata.businessrules.User;
-import com.kata.businessrules.contact.Contact;
+import com.kata.businessrules.contact.CommunicationMethod;
 import com.kata.businessrules.contact.MembershipActivationMessage;
 import com.kata.businessrules.products.Membership;
 import com.kata.businessrules.products.Product;
 
 public class ActivationMessageForMembershipBehavior implements PaymentBehavior {
 
-	private Contact contact;
+	private CommunicationMethod communicationMethod;
 
-	public ActivationMessageForMembershipBehavior(Contact contact) {
-		Preconditions.checkNotNull(contact);
-		this.contact = contact; 
+	public ActivationMessageForMembershipBehavior(CommunicationMethod communicationMethod) {
+		Preconditions.checkNotNull(communicationMethod);
+		this.communicationMethod = communicationMethod; 
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class ActivationMessageForMembershipBehavior implements PaymentBehavior {
 		Preconditions.checkNotNull(product);
 		MembershipActivationMessage message = new MembershipActivationMessage(
 				customer, (Membership) product);
-		contact.sendMessage(customer, message);
+		communicationMethod.sendMessage(customer, message);
 	}
 
 	@Override

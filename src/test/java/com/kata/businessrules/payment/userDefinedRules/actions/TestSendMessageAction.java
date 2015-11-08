@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.kata.businessrules.User;
-import com.kata.businessrules.contact.Contact;
+import com.kata.businessrules.contact.CommunicationMethod;
 import com.kata.businessrules.contact.Message;
 
 public class TestSendMessageAction {
@@ -18,21 +18,21 @@ public class TestSendMessageAction {
 	public final ExpectedException exception = ExpectedException.none();
 
 	private Action action;
-	private Contact contact;
+	private CommunicationMethod communicationMethod;
 	private Message message;
 	private User customer;
 	private User messageReceiver;
 
 	private void verifyMessageHasBeenReceivedBy(User expectedReceiver) {
-		verify(contact).sendMessage(expectedReceiver, message);
+		verify(communicationMethod).sendMessage(expectedReceiver, message);
 	}
 
 	@Before
 	public void Setup() {
 		customer = mock(User.class);
-		contact = mock(Contact.class);
+		communicationMethod = mock(CommunicationMethod.class);
 		message = mock(Message.class);
-		action = new SendMessageAction(contact, message,
+		action = new SendMessageAction(communicationMethod, message,
 				new SelectorWithFixedResult<User>(customer, messageReceiver));
 	}
 

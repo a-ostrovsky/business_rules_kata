@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import com.kata.businessrules.ProductFixture;
 import com.kata.businessrules.User;
-import com.kata.businessrules.contact.Contact;
+import com.kata.businessrules.contact.CommunicationMethod;
 import com.kata.businessrules.contact.MembershipActivationMessage;
 import com.kata.businessrules.products.Membership;
 import com.kata.businessrules.products.Product;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class TestActivationMessageForMembershipBehavior {
 	private ActivationMessageForMembershipBehavior behavior;
-	private Contact contact;
+	private CommunicationMethod communicationMethod;
 	private Membership membership;
 	private User customer;
 
@@ -27,14 +27,14 @@ public class TestActivationMessageForMembershipBehavior {
 	private void verifyCustomerHasReceivedMessage() {
 		MembershipActivationMessage message = new MembershipActivationMessage(
 				customer, membership);
-		verify(contact).sendMessage(customer, message);
+		verify(communicationMethod).sendMessage(customer, message);
 	}
 	
 	@Before
 	public void Setup() {
 		customer = mock(User.class);
-		contact = mock(Contact.class);
-		behavior = new ActivationMessageForMembershipBehavior(contact);
+		communicationMethod = mock(CommunicationMethod.class);
+		behavior = new ActivationMessageForMembershipBehavior(communicationMethod);
 		membership = (Membership)ProductFixture.createSomeMembership();
 	}
 
