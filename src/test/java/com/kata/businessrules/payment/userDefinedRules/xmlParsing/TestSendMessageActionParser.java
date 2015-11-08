@@ -28,6 +28,22 @@ public class TestSendMessageActionParser {
 		}
 	}
 
+	private void setCanParseMessage() {
+		when(messageParser.canParse(argThat(isMessage))).thenReturn(true);
+	}
+
+	private void setCannotParseMessage() {
+		when(messageParser.canParse(any(Element.class))).thenReturn(false);
+	}
+
+	private void setCanParseReceiver(Element xml) {
+		when(userSelectorParser.canParse(xml)).thenReturn(true);
+	}
+
+	private void setCannotParseReceiver(Element xml) {
+		when(userSelectorParser.canParse(xml)).thenReturn(false);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setup() {
@@ -41,8 +57,8 @@ public class TestSendMessageActionParser {
 	public void canParse_canParseReceiverAndMessage_true() throws Exception {
 		Element xml = XmlElement.fromText("<sendMessage receiver=\"customer\">"
 				+ "<message>hello</message>" + "</sendMessage>");
-		when(messageParser.canParse(argThat(isMessage))).thenReturn(true);
-		when(userSelectorParser.canParse(xml)).thenReturn(true);
+		setCanParseMessage();
+		setCanParseReceiver(xml);
 		ParserAssert.canParse(parser, xml);
 	}
 
@@ -55,8 +71,8 @@ public class TestSendMessageActionParser {
 	public void canParse_cannotParseMessage_false() throws Exception {
 		Element xml = XmlElement
 				.fromText("<sendMessage receiver=\"customer\"/>");
-		when(messageParser.canParse(any(Element.class))).thenReturn(false);
-		when(userSelectorParser.canParse(xml)).thenReturn(true);
+		setCannotParseMessage();
+		setCanParseReceiver(xml);
 		ParserAssert.cannotParse(parser, xml);
 	}
 
@@ -64,8 +80,8 @@ public class TestSendMessageActionParser {
 	public void canParse_cannotParseReceiver_false() throws Exception {
 		Element xml = XmlElement.fromText(
 				"<sendMessage><message>hello</message></sendMessage>");
-		when(messageParser.canParse(argThat(isMessage))).thenReturn(true);
-		when(userSelectorParser.canParse(xml)).thenReturn(false);
+		setCanParseMessage();
+		setCannotParseReceiver(xml);
 		ParserAssert.cannotParse(parser, xml);
 	}
 
@@ -73,8 +89,8 @@ public class TestSendMessageActionParser {
 	public void canParse_notSendMessageAction_false() throws Exception {
 		Element xml = XmlElement.fromText(
 				"<SOMETHING_ELSE><message>hello</message></SOMETHING_ELSE>");
-		when(messageParser.canParse(argThat(isMessage))).thenReturn(true);
-		when(userSelectorParser.canParse(xml)).thenReturn(true);
+		setCanParseMessage();
+		setCanParseReceiver(xml);
 		ParserAssert.cannotParse(parser, xml);
 	}
 }
