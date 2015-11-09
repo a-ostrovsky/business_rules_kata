@@ -11,7 +11,6 @@ import org.w3c.dom.Element;
 import com.kata.businessrules.User;
 import com.kata.businessrules.XmlElement;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
-import com.kata.businessrules.payment.userDefinedRules.actions.IssueReceiptAction;
 import com.kata.businessrules.payment.userDefinedRules.actions.IssueReceiptActionFactory;
 import com.kata.businessrules.payment.userDefinedRules.actions.Selector;
 import com.kata.businessrules.products.Product;
@@ -24,9 +23,9 @@ public class TestIssueReceiptActionParser {
 	private Selector<Product> productSelector;
 	private Selector<User> userSelector;
 
-	private IssueReceiptAction setupIssueReceiptActionFactory(
-			Selector<User> userSelector, Selector<Product> productSelector) {
-		IssueReceiptAction result = mock(IssueReceiptAction.class);
+	private Action setupIssueReceiptActionFactory(Selector<User> userSelector,
+			Selector<Product> productSelector) {
+		Action result = mock(Action.class);
 		when(actionFactory.create(userSelector, productSelector))
 				.thenReturn(result);
 		return result;

@@ -4,6 +4,6 @@ import com.kata.businessrules.User;
 import com.kata.businessrules.products.Product;
 
 public interface IssueReceiptActionFactory {
-	IssueReceiptAction create(Selector<User> userSelector,
+	Action create(Selector<User> userSelector,
 			Selector<Product> productSelector);
 }
