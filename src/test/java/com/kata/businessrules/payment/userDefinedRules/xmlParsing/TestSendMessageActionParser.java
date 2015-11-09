@@ -17,6 +17,7 @@ import com.kata.businessrules.XmlElement;
 import com.kata.businessrules.contact.Message;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
 import com.kata.businessrules.payment.userDefinedRules.actions.Selector;
+import com.kata.businessrules.payment.userDefinedRules.actions.SendMessageAction;
 import com.kata.businessrules.payment.userDefinedRules.actions.SendMessageActionFactory;
 
 public class TestSendMessageActionParser {
@@ -51,9 +52,9 @@ public class TestSendMessageActionParser {
 		when(userSelectorParser.canParse(xml)).thenReturn(false);
 	}
 
-	private Action setupSendMessageActionFactory(Selector<User> userSelector,
+	private SendMessageAction setupSendMessageActionFactory(Selector<User> userSelector,
 			Message message) {
-		Action result = mock(Action.class);
+		SendMessageAction result = mock(SendMessageAction.class);
 		when(actionFactory.create(userSelector, message)).thenReturn(result);
 		return result;
 	}
