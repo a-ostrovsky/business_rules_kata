@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.businessrules.com"
+	xmlns:tns="http://www.businessrules.com" elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name=" actions ">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="whenPaidFor" type="tns:whenPaidFor" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="whenPaidFor">
+		<xs:choice>
+			<xs:element name="sendMessage" type="tns:sendMessage" />
+			<xs:element name="receiptFor" type="tns:receiptFor" />
+		</xs:choice>
+		<xs:attribute name="productTitle" type="xs:string" use="optional" />
+		<xs:attribute name="productType" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="sendMessage">
+		<xs:sequence>
+			<xs:element name="message" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="receiptFor">
+		<xs:attribute name="product" type="tns:product" use="optional" />
+		<xs:attribute name="productId" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:simpleType name="product">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="bought" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
