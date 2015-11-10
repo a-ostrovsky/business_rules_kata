@@ -4,6 +4,7 @@ import org.w3c.dom.Element;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.inject.Inject;
 import com.kata.businessrules.User;
 import com.kata.businessrules.UserRepository;
 import com.kata.businessrules.payment.userDefinedRules.actions.Selector;
@@ -12,6 +13,7 @@ public class ReceiverWithIdParser implements Parser<Selector<User>> {
 
 	private UserRepository userRepository;
 
+	@Inject
 	public ReceiverWithIdParser(UserRepository userRepository) {
 		Preconditions.checkNotNull(userRepository);
 		this.userRepository = userRepository;

@@ -4,11 +4,11 @@ import static org.mockito.Mockito.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Element;
+
+import com.google.common.collect.ImmutableSet;
 
 public class TestCombinationOfParsers {
 
@@ -25,7 +25,7 @@ public class TestCombinationOfParsers {
 		firstParser = (Parser<Integer>) mock(Parser.class);
 		secondParser = (Parser<Integer>) mock(Parser.class);
 		combination = new CombinationOfParsers<>(
-				Arrays.asList(firstParser, secondParser));
+				ImmutableSet.of(firstParser, secondParser));
 	}
 
 	@Test

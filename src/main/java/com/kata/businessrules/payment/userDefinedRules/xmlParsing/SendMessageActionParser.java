@@ -2,6 +2,7 @@ package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
 import org.w3c.dom.Element;
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
 import com.kata.businessrules.User;
 import com.kata.businessrules.contact.Message;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
@@ -14,6 +15,7 @@ public class SendMessageActionParser implements Parser<Action> {
 	private Parser<Selector<User>> userSelectorParser;
 	private SendMessageActionFactory factory;
 
+	@Inject
 	public SendMessageActionParser(SendMessageActionFactory factory,
 			Parser<Message> messageParser,
 			Parser<Selector<User>> userSelectorParser) {

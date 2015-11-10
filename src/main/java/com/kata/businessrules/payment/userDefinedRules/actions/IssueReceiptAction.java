@@ -1,6 +1,8 @@
 package com.kata.businessrules.payment.userDefinedRules.actions;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import com.kata.businessrules.Receipt;
 import com.kata.businessrules.ReceiptGenerator;
 import com.kata.businessrules.User;
@@ -12,8 +14,10 @@ public class IssueReceiptAction implements Action {
 	private Selector<User> userSelector;
 	private Selector<Product> productSelector;
 
+	@Inject
 	public IssueReceiptAction(ReceiptGenerator receiptGenerator,
-			Selector<User> userSelector, Selector<Product> productSelector) {
+			@Assisted Selector<User> userSelector,
+			@Assisted Selector<Product> productSelector) {
 		Preconditions.checkNotNull(receiptGenerator);
 		Preconditions.checkNotNull(userSelector);
 		Preconditions.checkNotNull(productSelector);

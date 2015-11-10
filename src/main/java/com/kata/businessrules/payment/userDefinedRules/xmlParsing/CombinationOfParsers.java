@@ -1,16 +1,19 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.w3c.dom.Element;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
 
 public class CombinationOfParsers<T> implements Parser<T> {
 
 	private Collection<Parser<T>> parsers;
 
-	public CombinationOfParsers(Collection<Parser<T>> parsers) {
+	@Inject
+	public CombinationOfParsers(Set<Parser<T>> parsers) {
 		Preconditions.checkNotNull(parsers);
 		this.parsers = parsers;
 	}

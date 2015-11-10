@@ -1,6 +1,8 @@
 package com.kata.businessrules.payment.userDefinedRules.actions;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import com.kata.businessrules.User;
 import com.kata.businessrules.contact.CommunicationMethod;
 import com.kata.businessrules.contact.Message;
@@ -12,8 +14,9 @@ public class SendMessageAction implements Action {
 	private Message message;
 	private Selector<User> userSelector;
 
-	public SendMessageAction(CommunicationMethod communicationMethod, Message message,
-			Selector<User> userSelector) {
+	@Inject
+	public SendMessageAction(CommunicationMethod communicationMethod,
+			@Assisted Message message, @Assisted Selector<User> userSelector) {
 		Preconditions.checkNotNull(communicationMethod);
 		Preconditions.checkNotNull(message);
 		Preconditions.checkNotNull(userSelector);

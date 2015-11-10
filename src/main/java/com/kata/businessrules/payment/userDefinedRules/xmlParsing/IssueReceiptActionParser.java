@@ -3,6 +3,7 @@ package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 import org.w3c.dom.Element;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
 import com.kata.businessrules.User;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
 import com.kata.businessrules.payment.userDefinedRules.actions.IssueReceiptActionFactory;
@@ -15,6 +16,7 @@ public class IssueReceiptActionParser implements Parser<Action> {
 	private Parser<Selector<Product>> productSelectorParser;
 	private IssueReceiptActionFactory factory;
 
+	@Inject
 	public IssueReceiptActionParser(IssueReceiptActionFactory factory,
 			Parser<Selector<User>> userSelectorParser,
 			Parser<Selector<Product>> productSelectorParser) {

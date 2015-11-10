@@ -4,6 +4,7 @@ import org.w3c.dom.Element;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.inject.Inject;
 import com.kata.businessrules.ProductRepository;
 import com.kata.businessrules.payment.userDefinedRules.actions.Selector;
 import com.kata.businessrules.products.Product;
@@ -12,6 +13,7 @@ public class ProductWithIdParser implements Parser<Selector<Product>> {
 
 	private ProductRepository productRepository;
 
+	@Inject
 	public ProductWithIdParser(ProductRepository productRepository) {
 		Preconditions.checkNotNull(productRepository);
 		this.productRepository = productRepository;
