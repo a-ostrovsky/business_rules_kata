@@ -1,5 +1,6 @@
 package com.kata.businessrules;
 
+import java.util.Set;
 import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
@@ -12,9 +13,9 @@ import com.kata.businessrules.products.Product;
 public class RuleEngine {
 
 	private final Logger logger = LoggerFactory.getLogger(RuleEngine.class);
-	private Iterable<PaymentBehavior> paymentBehaviors;
+	private Set<PaymentBehavior> paymentBehaviors;
 
-	public RuleEngine(Iterable<PaymentBehavior> paymentBehaviors) {
+	public RuleEngine(Set<PaymentBehavior> paymentBehaviors) {
 		Preconditions.checkNotNull(paymentBehaviors);
 		this.paymentBehaviors = paymentBehaviors;
 	}
