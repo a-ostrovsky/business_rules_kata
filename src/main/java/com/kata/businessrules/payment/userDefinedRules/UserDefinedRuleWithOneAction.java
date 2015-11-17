@@ -16,11 +16,11 @@ public class UserDefinedRuleWithOneAction implements PaymentBehavior {
 		Preconditions.checkNotNull(filter);
 		Preconditions.checkNotNull(action);
 		this.filter = filter;
-		this.action = action;		
+		this.action = action;
 	}
 
 	@Override
-	public void pay(User customer, Product product) {		
+	public void pay(User customer, Product product) {
 		action.execute(customer, product);
 	}
 
