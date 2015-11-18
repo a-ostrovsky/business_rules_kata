@@ -1,6 +1,6 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
-import static com.kata.businessrules.matchers.Matchers.hasStructurallyEquivalentItem;
+import static com.kata.businessrules.matchers.Matchers.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -47,8 +47,7 @@ public class TestXmlParser {
 		PaymentBehavior expectedResult = new UserDefinedRuleWithOneAction(
 				parsedFilter, parsedAction);
 		Collection<PaymentBehavior> behaviors = parser.parse(rules);
-		assertThat("Must parse one behavior.", behaviors.size(), is(1));
-		assertThat(behaviors, hasStructurallyEquivalentItem(expectedResult));
+		assertThat(behaviors, isStructurallyEquivalentTo(expectedResult));
 	}
-	
+
 }
