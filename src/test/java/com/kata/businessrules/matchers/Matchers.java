@@ -30,8 +30,6 @@ public class Matchers {
 			public void describeTo(Description description) {
 				description.appendText("Two collections have different items.");
 			}
-
 		};
-
 	}
 }

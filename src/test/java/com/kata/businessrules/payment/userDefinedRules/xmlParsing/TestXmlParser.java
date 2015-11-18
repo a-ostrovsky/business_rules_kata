@@ -64,5 +64,12 @@ public class TestXmlParser {
 		assertThat("Must parse two behaviors.", behaviors.size(), is(2));
 	}
 
-	// Comments
+	@Test
+	public void parse_xmlDocumentWithComments_CommentsAreIgnored()
+			throws Exception {
+		Document rules = XmlDocument
+				.fromText("<actions><!--COMMENT--></actions>");
+		Collection<PaymentBehavior> behaviors = parser.parse(rules);
+		assertThat("Must ignore comments.", behaviors.size(), is(0));
+	}
 }

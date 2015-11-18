@@ -1,7 +1,6 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +38,10 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 		}
 		List<PaymentBehavior> result = new LinkedList<PaymentBehavior>();
 		for (int i = 0; i < children.getLength(); i++) {
+			if(!(children.item(i) instanceof Element))
+			{
+				continue;
+			}
 			Element filterAndActionElement = (Element) children.item(i);
 			Filter filter = filterParser.parse(filterAndActionElement);
 			Element actionElement = (Element) filterAndActionElement
