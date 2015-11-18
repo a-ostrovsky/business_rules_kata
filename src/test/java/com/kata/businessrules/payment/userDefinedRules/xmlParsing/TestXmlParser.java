@@ -1,6 +1,6 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
-import static com.kata.businessrules.matchers.Matchers.*;
+import static com.kata.businessrules.helpers.Matchers.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -22,6 +22,13 @@ public class TestXmlParser {
 	private ParserWithFixedResult<Action> actionParser;
 	private ParserWithFixedResult<Filter> filterParser;
 
+	private PaymentBehavior setCanParseFilterWithAction(String filter,
+			String action) {
+		Action parsedAction = actionParser.setCanParse(action);
+		Filter parsedFilter = filterParser.setCanParse(filter);
+		return new UserDefinedRuleWithOneAction(parsedFilter, parsedAction);
+	}
+
 	@Before
 	public void setup() throws Exception {
 		filterParser = new ParserWithFixedResult<>(Filter.class);
@@ -42,10 +49,8 @@ public class TestXmlParser {
 			throws Exception {
 		Document rules = XmlDocument
 				.fromText("<actions><filter><action/></filter></actions>");
-		Action parsedAction = actionParser.setCanParse("action");
-		Filter parsedFilter = filterParser.setCanParse("filter");
-		PaymentBehavior expectedResult = new UserDefinedRuleWithOneAction(
-				parsedFilter, parsedAction);
+		PaymentBehavior expectedResult = setCanParseFilterWithAction("filter",
+				"action");
 		Collection<PaymentBehavior> behaviors = parser.parse(rules);
 		assertThat(behaviors, isStructurallyEquivalentTo(expectedResult));
 	}
@@ -56,16 +61,14 @@ public class TestXmlParser {
 		Document rules = XmlDocument
 				.fromText("<actions><filter1><action1/></filter1>"
 						+ "<filter2><action2/></filter2></actions>");
-		actionParser.setCanParse("action1");
-		filterParser.setCanParse("filter1");
-		actionParser.setCanParse("action2");
-		filterParser.setCanParse("filter2");
+		setCanParseFilterWithAction("filter1", "action1");
+		setCanParseFilterWithAction("filter2", "action2");
 		Collection<PaymentBehavior> behaviors = parser.parse(rules);
 		assertThat("Must parse two behaviors.", behaviors.size(), is(2));
 	}
 
 	@Test
-	public void parse_xmlDocumentWithComments_CommentsAreIgnored()
+	public void parse_xmlDocumentWithComments_commentsAreIgnored()
 			throws Exception {
 		Document rules = XmlDocument
 				.fromText("<actions><!--COMMENT--></actions>");

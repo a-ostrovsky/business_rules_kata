@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.google.common.base.Preconditions;
@@ -31,24 +32,38 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 	@Override
 	public Collection<PaymentBehavior> parse(Document behaviorDefinition) {
 		Preconditions.checkNotNull(behaviorDefinition);
-		Element document = behaviorDefinition.getDocumentElement();
-		NodeList children = document.getChildNodes();
-		if (children.getLength() == 0) {
-			return new ArrayList<>();
-		}
-		List<PaymentBehavior> result = new LinkedList<PaymentBehavior>();
-		for (int i = 0; i < children.getLength(); i++) {
-			if(!(children.item(i) instanceof Element))
-			{
-				continue;
-			}
-			Element filterAndActionElement = (Element) children.item(i);
-			Filter filter = filterParser.parse(filterAndActionElement);
-			Element actionElement = (Element) filterAndActionElement
-					.getFirstChild();
-			Action action = actionParser.parse(actionElement);
+		Collection<Element> xmlElements = getXmlElements(behaviorDefinition);
+		List<PaymentBehavior> result = new LinkedList<>();
+		for (Element filterAndActionElement : xmlElements) {
+			Filter filter = parseFilter(filterAndActionElement);
+			Action action = parseAction(filterAndActionElement);
 			result.add(new UserDefinedRuleWithOneAction(filter, action));
 		}
 		return result;
+	}
+
+	private Collection<Element> getXmlElements(Document behaviorDefinition) {
+		Element document = behaviorDefinition.getDocumentElement();
+		NodeList children = document.getChildNodes();
+		List<Element> result = new LinkedList<>();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node item = children.item(i);
+			if (item instanceof Element) {
+				result.add((Element) item);
+			}
+		}
+		return result;
+	}
+
+	private Filter parseFilter(Element filterAndActionElement) {
+		Filter filter = filterParser.parse(filterAndActionElement);
+		return filter;
+	}
+
+	private Action parseAction(Element filterAndActionElement) {
+		Element actionElement = (Element) filterAndActionElement
+				.getFirstChild();
+		Action action = actionParser.parse(actionElement);
+		return action;
 	}
 }

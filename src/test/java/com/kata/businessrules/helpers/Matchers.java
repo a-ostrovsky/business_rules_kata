@@ -1,4 +1,4 @@
-package com.kata.businessrules.matchers;
+package com.kata.businessrules.helpers;
 
 import java.util.Arrays;
 import java.util.Collection;
