@@ -50,4 +50,19 @@ public class TestXmlParser {
 		assertThat(behaviors, isStructurallyEquivalentTo(expectedResult));
 	}
 
+	@Test
+	public void parse_xmlDocumentWithTwoFiltersAndActions_thoseAreParsed()
+			throws Exception {
+		Document rules = XmlDocument
+				.fromText("<actions><filter1><action1/></filter1>"
+						+ "<filter2><action2/></filter2></actions>");
+		actionParser.setCanParse("action1");
+		filterParser.setCanParse("filter1");
+		actionParser.setCanParse("action2");
+		filterParser.setCanParse("filter2");
+		Collection<PaymentBehavior> behaviors = parser.parse(rules);
+		assertThat("Must parse two behaviors.", behaviors.size(), is(2));
+	}
+
+	// Comments
 }
