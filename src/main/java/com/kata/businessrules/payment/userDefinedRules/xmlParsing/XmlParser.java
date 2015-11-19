@@ -1,9 +1,10 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,6 +13,7 @@ import org.w3c.dom.NodeList;
 
 import com.google.common.base.Preconditions;
 import com.kata.businessrules.payment.PaymentBehavior;
+import com.kata.businessrules.payment.PaymentBehaviorsParseException;
 import com.kata.businessrules.payment.PaymentBehaviorsParser;
 import com.kata.businessrules.payment.userDefinedRules.UserDefinedRuleWithOneAction;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
@@ -30,7 +32,8 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 	}
 
 	@Override
-	public Collection<PaymentBehavior> parse(Document behaviorDefinition) {
+	public Collection<PaymentBehavior> parse(Document behaviorDefinition)
+			throws PaymentBehaviorsParseException {
 		Preconditions.checkNotNull(behaviorDefinition);
 		Collection<Element> xmlElements = getXmlElements(behaviorDefinition);
 		List<PaymentBehavior> result = new LinkedList<>();
@@ -55,15 +58,39 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 		return result;
 	}
 
-	private Filter parseFilter(Element filterAndActionElement) {
+	private Filter parseFilter(Element filterAndActionElement)
+			throws PaymentBehaviorsParseException {
+		verifyCanParseFilter(filterAndActionElement);
 		Filter filter = filterParser.parse(filterAndActionElement);
 		return filter;
 	}
 
-	private Action parseAction(Element filterAndActionElement) {
+	private void verifyCanParseFilter(Element filterAndActionElement)
+			throws PaymentBehaviorsParseException {
+		if (!filterParser.canParse(filterAndActionElement)) {
+			throw new PaymentBehaviorsParseException(getErrorMessage());
+		}
+	}
+
+	private Action parseAction(Element filterAndActionElement)
+			throws PaymentBehaviorsParseException {
 		Element actionElement = (Element) filterAndActionElement
 				.getFirstChild();
+		verifyCanParseAction(actionElement);
 		Action action = actionParser.parse(actionElement);
 		return action;
+	}
+
+	private void verifyCanParseAction(Element actionElement)
+			throws PaymentBehaviorsParseException {
+		if (actionElement == null || !actionParser.canParse(actionElement)) {
+			throw new PaymentBehaviorsParseException(getErrorMessage());
+		}
+	}
+
+	private String getErrorMessage() {
+		ResourceBundle messages = ResourceBundle.getBundle(
+				"com.kata.businessrules.MessagesBundle", new Locale("en"));
+		return messages.getString("couldNotParseXmlFile");
 	}
 }

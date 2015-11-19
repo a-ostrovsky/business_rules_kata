@@ -4,19 +4,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.kata.businessrules.User;
 import com.kata.businessrules.contact.CommunicationMethod;
 import com.kata.businessrules.contact.Message;
 
 public class TestSendMessageAction {
-
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
-
+	
 	private Action action;
 	private CommunicationMethod communicationMethod;
 	private Message message;

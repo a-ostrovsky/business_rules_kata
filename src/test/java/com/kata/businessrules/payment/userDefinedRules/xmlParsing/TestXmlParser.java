@@ -7,11 +7,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.Collection;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.w3c.dom.Document;
 
 import com.kata.businessrules.XmlDocument;
 import com.kata.businessrules.payment.PaymentBehavior;
+import com.kata.businessrules.payment.PaymentBehaviorsParseException;
 import com.kata.businessrules.payment.userDefinedRules.UserDefinedRuleWithOneAction;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
 import com.kata.businessrules.payment.userDefinedRules.filters.Filter;
@@ -21,6 +24,9 @@ public class TestXmlParser {
 	private XmlParser parser;
 	private ParserWithFixedResult<Action> actionParser;
 	private ParserWithFixedResult<Filter> filterParser;
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private PaymentBehavior setCanParseFilterWithAction(String filter,
 			String action) {
@@ -74,5 +80,35 @@ public class TestXmlParser {
 				.fromText("<actions><!--COMMENT--></actions>");
 		Collection<PaymentBehavior> behaviors = parser.parse(rules);
 		assertThat("Must ignore comments.", behaviors.size(), is(0));
+	}
+
+	@Test
+	public void parse_cannotParseFilter_PaymentBehaviorParseException()
+			throws Exception {
+		Document rules = XmlDocument.fromText(
+				"<actions><cannotParseThis><action/></cannotParseThis></actions>");
+		setCanParseFilterWithAction("NOT_cannotParseThis", "action");
+		exception.expect(PaymentBehaviorsParseException.class);
+		parser.parse(rules);
+	}
+
+	@Test
+	public void parse_cannotParseAction_PaymentBehaviorParseException()
+			throws Exception {
+		Document rules = XmlDocument.fromText(
+				"<actions><filter><cannotParseThis/></filter></actions>");
+		setCanParseFilterWithAction("filter", "NOT_cannotParseThis");
+		exception.expect(PaymentBehaviorsParseException.class);
+		parser.parse(rules);
+	}
+	
+	@Test
+	public void parse_someFilterHasNoAction_PaymentBehaviorParseException()
+			throws Exception {
+		Document rules = XmlDocument.fromText(
+				"<actions><filter/></actions>");
+		setCanParseFilterWithAction("filter", "does_not_matter");
+		exception.expect(PaymentBehaviorsParseException.class);
+		parser.parse(rules);
 	}
 }
