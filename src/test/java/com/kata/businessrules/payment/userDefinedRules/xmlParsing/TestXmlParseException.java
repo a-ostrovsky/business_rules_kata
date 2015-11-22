@@ -13,7 +13,7 @@ import com.kata.businessrules.XmlElement;
 public class TestXmlParseException {
 	@Test
 	public void constructor_nodeIsProvided_nodeIsInErrorMessage()
-			throws Exception {
+			throws Exception {		
 		Exception exception = new XmlParseException(
 				Optional.of(XmlElement.fromText("<invalidNode />")));
 		assertThat(exception.getMessage(), containsString("invalidNode"));
@@ -26,7 +26,4 @@ public class TestXmlParseException {
 		Exception exception = new XmlParseException(Optional.empty());
 		assertThat(exception.getMessage(), containsString(expected));
 	}
-
-	// Line number is provided:
-	// http://stackoverflow.com/questions/4915422/get-line-number-from-xml-node-java
 }
