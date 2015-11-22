@@ -90,7 +90,7 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 
 	private void verifyCanParseAction(Optional<Element> actionElement)
 			throws PaymentBehaviorsParseException {
-		if (!actionElement.isPresent()
+		if (actionElement.get() == null
 				|| !actionParser.canParse(actionElement.get())) {
 			throw new PaymentBehaviorsParseException(getErrorMessage());
 		}

@@ -16,6 +16,6 @@
 	</whenPaidFor>
 
 	<whenPaidFor productType="Book">
-		<receiptFor product="bought" receiver="royaltyDepartment" />
+		<receiptFor product="bought" receiverId="royaltyDepartment" />
 	</whenPaidFor>
 </actions>
