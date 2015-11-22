@@ -1,8 +1,5 @@
 package com.kata.businessrules;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.kata.businessrules.payment.PaymentBehaviorsParseException;
@@ -24,14 +21,7 @@ public class RuleEngineLoader<T> {
 			return new RuleEngineForPaymentBehaviors(
 					parser.parse(representation));
 		} catch (PaymentBehaviorsParseException e) {
-			throw new RuleEngineCreationException(getErrorMessage(), e);
+			throw new RuleEngineCreationException(e);
 		}
 	}
-
-	private String getErrorMessage() {
-		ResourceBundle messages = ResourceBundle.getBundle(
-				"com.kata.businessrules.MessagesBundle", new Locale("en"));
-		return messages.getString("couldNotCreateRuleEngine");
-	}
-
 }

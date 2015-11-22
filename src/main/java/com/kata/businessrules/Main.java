@@ -1,13 +1,11 @@
 package com.kata.businessrules;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

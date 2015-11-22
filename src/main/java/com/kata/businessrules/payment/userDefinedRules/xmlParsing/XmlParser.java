@@ -3,9 +3,7 @@ package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,7 +73,7 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 	private void verifyCanParseFilter(Element filterAndActionElement)
 			throws PaymentBehaviorsParseException {
 		if (!filterParser.canParse(filterAndActionElement)) {
-			throw new PaymentBehaviorsParseException(getErrorMessage());
+			throw new XmlParseException(Optional.of(filterAndActionElement));
 		}
 	}
 
@@ -90,15 +88,9 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 
 	private void verifyCanParseAction(Optional<Element> actionElement)
 			throws PaymentBehaviorsParseException {
-		if (actionElement.get() == null
+		if (!actionElement.isPresent()
 				|| !actionParser.canParse(actionElement.get())) {
-			throw new PaymentBehaviorsParseException(getErrorMessage());
+			throw new XmlParseException(actionElement);
 		}
-	}
-
-	private String getErrorMessage() {
-		ResourceBundle messages = ResourceBundle.getBundle(
-				"com.kata.businessrules.MessagesBundle", new Locale("en"));
-		return messages.getString("couldNotParseXmlFile");
 	}
 }

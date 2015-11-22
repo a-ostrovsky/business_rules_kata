@@ -1,15 +1,14 @@
 package com.kata.businessrules;
 
-public class RuleEngineCreationException extends Exception {
+public class RuleEngineCreationException extends Exception {	
 	
-	private static final long serialVersionUID = -5338760833138789731L;
-	
-	public RuleEngineCreationException(String message) {
-		super(message);
-	}
+	private static final long serialVersionUID = -4820884111905552888L;
 
-	public RuleEngineCreationException(String message,
-			Throwable throwable) {
-		super(message, throwable);
+	public RuleEngineCreationException() {
+		super(Messages.get("couldNotCreateRuleEngine"));
+	}
+	
+	public RuleEngineCreationException(Throwable throwable) {
+		super(Messages.get("couldNotCreateRuleEngine"), throwable);
 	}
 }
