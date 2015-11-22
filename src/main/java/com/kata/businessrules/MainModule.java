@@ -1,12 +1,21 @@
 package com.kata.businessrules;
 
+import org.w3c.dom.Document;
+
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import com.kata.businessrules.products.Product;
 
-public class DummyMainModule extends AbstractModule {
+public class MainModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		installDummyModules();
+		bind(new TypeLiteral<RuleEngineLoader<Document>>() {
+		});
+	}
+
+	private void installDummyModules() {
 		bind(ReceiptGenerator.class).toInstance(new ReceiptGenerator() {
 			@Override
 			public Receipt generateReceipt(User customer, Product product) {

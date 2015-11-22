@@ -3,11 +3,14 @@ package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.w3c.dom.Document;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.kata.businessrules.User;
 import com.kata.businessrules.contact.Message;
+import com.kata.businessrules.payment.PaymentBehaviorsParser;
 import com.kata.businessrules.payment.userDefinedRules.actions.Action;
 import com.kata.businessrules.payment.userDefinedRules.actions.Selector;
 import com.kata.businessrules.payment.userDefinedRules.filters.Filter;
@@ -22,6 +25,12 @@ public class XmlParsingModule extends AbstractModule {
 		configureActionParsers();
 		configureFilterParsers();
 		configureUserSelectorParsers();
+		configurePaymentBehaviorsParser();
+	}
+
+	private void configurePaymentBehaviorsParser() {
+		bind(new TypeLiteral<PaymentBehaviorsParser<Document>>() {
+		}).to(XmlParser.class);		
 	}
 
 	private void configureUserSelectorParsers() {

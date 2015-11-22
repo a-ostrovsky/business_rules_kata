@@ -14,6 +14,22 @@ public class Matchers {
 				.anyMatch(elt -> EqualsBuilder.reflectionEquals(elt, item));
 	}
 
+	public static <T> BaseMatcher<T> isStructurallyEqualTo(T expected) {
+		return new BaseMatcher<T>() {
+			@Override
+			public boolean matches(Object item) {
+				return EqualsBuilder.reflectionEquals(expected, item);
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText(
+						"Two items with same structure. "
+						+ "I.e., they have same variable assignments.");
+			}
+		};
+	}
+
 	@SafeVarargs
 	public static <T> BaseMatcher<T> isStructurallyEquivalentTo(T... expected) {
 		return new BaseMatcher<T>() {
@@ -28,7 +44,7 @@ public class Matchers {
 
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("Two collections have different items.");
+				description.appendText("Two collections having same items.");
 			}
 		};
 	}

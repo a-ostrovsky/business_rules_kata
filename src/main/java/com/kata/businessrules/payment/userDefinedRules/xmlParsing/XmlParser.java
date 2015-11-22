@@ -12,6 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
 import com.kata.businessrules.payment.PaymentBehavior;
 import com.kata.businessrules.payment.PaymentBehaviorsParseException;
 import com.kata.businessrules.payment.PaymentBehaviorsParser;
@@ -24,6 +25,7 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 	private Parser<Filter> filterParser;
 	private Parser<Action> actionParser;
 
+	@Inject
 	public XmlParser(Parser<Filter> filterParser, Parser<Action> actionParser) {
 		Preconditions.checkNotNull(filterParser);
 		Preconditions.checkNotNull(actionParser);

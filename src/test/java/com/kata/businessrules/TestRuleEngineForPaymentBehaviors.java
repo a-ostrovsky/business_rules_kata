@@ -10,8 +10,8 @@ import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 
-public class TestRuleEngine {
-	private RuleEngine engine;
+public class TestRuleEngineForPaymentBehaviors {
+	private RuleEngine behaviors;
 	private Product product;
 	private PaymentBehavior firstBehaviorThatCanProcessProduct;
 	private PaymentBehavior secondBehaviorThatCanProcessProduct;
@@ -19,7 +19,7 @@ public class TestRuleEngine {
 	private User customer;
 
 	private void pay() {
-		engine.pay(customer, product);
+		behaviors.pay(customer, product);
 	}
 
 	@Before
@@ -32,7 +32,7 @@ public class TestRuleEngine {
 		behaviorThatCannotProcessProduct = PaymentProcessorFixture
 				.thatCanNotProcess(product);
 		customer = mock(User.class);
-		engine = new RuleEngine(
+		behaviors = new RuleEngineForPaymentBehaviors(
 				Arrays.asList(firstBehaviorThatCanProcessProduct,
 						behaviorThatCannotProcessProduct,
 						secondBehaviorThatCanProcessProduct));
