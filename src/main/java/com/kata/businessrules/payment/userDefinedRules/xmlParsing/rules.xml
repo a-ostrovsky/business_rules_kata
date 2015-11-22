@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions xmlns="http://www.businessrules.com"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
-	xs:noNamespaceSchemaLocation="rules.xsd"
 	xs:schemaLocation="http://www.businessrules.com rules.xsd">
 	<whenPaidFor productTitle="Learning to Ski">
 		<receiptFor productId="First_Aid_Id" receiver="customer" />
