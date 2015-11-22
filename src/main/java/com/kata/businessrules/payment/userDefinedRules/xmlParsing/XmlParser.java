@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.w3c.dom.Document;
@@ -48,8 +49,12 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 	}
 
 	private Collection<Element> getXmlElements(Document behaviorDefinition) {
-		Element document = behaviorDefinition.getDocumentElement();
-		NodeList children = document.getChildNodes();
+		Element element = behaviorDefinition.getDocumentElement();
+		return getXmlElements(element);
+	}
+
+	private Collection<Element> getXmlElements(Element element) {
+		NodeList children = element.getChildNodes();
 		List<Element> result = new LinkedList<>();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node item = children.item(i);
@@ -76,16 +81,17 @@ public class XmlParser implements PaymentBehaviorsParser<Document> {
 
 	private Action parseAction(Element filterAndActionElement)
 			throws PaymentBehaviorsParseException {
-		Element actionElement = (Element) filterAndActionElement
-				.getFirstChild();
+		Optional<Element> actionElement = getXmlElements(filterAndActionElement)
+				.stream().findFirst();
 		verifyCanParseAction(actionElement);
-		Action action = actionParser.parse(actionElement);
+		Action action = actionParser.parse(actionElement.get());
 		return action;
 	}
 
-	private void verifyCanParseAction(Element actionElement)
+	private void verifyCanParseAction(Optional<Element> actionElement)
 			throws PaymentBehaviorsParseException {
-		if (actionElement == null || !actionParser.canParse(actionElement)) {
+		if (!actionElement.isPresent()
+				|| !actionParser.canParse(actionElement.get())) {
 			throw new PaymentBehaviorsParseException(getErrorMessage());
 		}
 	}

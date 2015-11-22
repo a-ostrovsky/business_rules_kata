@@ -1,5 +1,6 @@
 package com.kata.businessrules.payment.userDefinedRules.xmlParsing;
 
+import static com.kata.businessrules.helpers.Assert.*;
 import static com.kata.businessrules.helpers.Matchers.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,6 +25,11 @@ public class TestXmlParser {
 	private XmlParser parser;
 	private ParserWithFixedResult<Action> actionParser;
 	private ParserWithFixedResult<Filter> filterParser;
+
+	private void verifyCommentsAreIgnored(String xml) throws Exception {
+		Document rules = XmlDocument.fromText(xml);
+		assertDoesNotThrow(() -> parser.parse(rules));
+	}
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -76,10 +82,13 @@ public class TestXmlParser {
 	@Test
 	public void parse_xmlDocumentWithComments_commentsAreIgnored()
 			throws Exception {
-		Document rules = XmlDocument
-				.fromText("<actions><!--COMMENT--></actions>");
-		Collection<PaymentBehavior> behaviors = parser.parse(rules);
-		assertThat("Must ignore comments.", behaviors.size(), is(0));
+		verifyCommentsAreIgnored("<actions><!--COMMENT--></actions>");
+
+		setCanParseFilterWithAction("filter", "action");
+		verifyCommentsAreIgnored(
+				"<actions><filter><!--COMMENT--><action/></filter></actions>");
+		verifyCommentsAreIgnored(
+				"<actions><!--COMMENT--><filter><action/></filter></actions>");
 	}
 
 	@Test
@@ -101,12 +110,11 @@ public class TestXmlParser {
 		exception.expect(PaymentBehaviorsParseException.class);
 		parser.parse(rules);
 	}
-	
+
 	@Test
 	public void parse_someFilterHasNoAction_PaymentBehaviorParseException()
 			throws Exception {
-		Document rules = XmlDocument.fromText(
-				"<actions><filter/></actions>");
+		Document rules = XmlDocument.fromText("<actions><filter/></actions>");
 		setCanParseFilterWithAction("filter", "does_not_matter");
 		exception.expect(PaymentBehaviorsParseException.class);
 		parser.parse(rules);
