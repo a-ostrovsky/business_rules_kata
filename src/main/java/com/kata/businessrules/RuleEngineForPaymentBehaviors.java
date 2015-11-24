@@ -15,6 +15,10 @@ public class RuleEngineForPaymentBehaviors implements RuleEngine {
 
 	private final Logger logger = LoggerFactory.getLogger(RuleEngineForPaymentBehaviors.class);
 	private Collection<PaymentBehavior> paymentBehaviors;
+	
+	/*package*/ int getCountOfPaymentBehaviors(){
+		return paymentBehaviors.size();
+	}
 
 	@Inject
 	public RuleEngineForPaymentBehaviors(Collection<PaymentBehavior> paymentBehaviors) {
